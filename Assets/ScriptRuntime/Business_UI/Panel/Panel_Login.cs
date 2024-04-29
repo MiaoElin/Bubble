@@ -4,13 +4,16 @@ using UnityEngine.UI;
 
 public class Panel_Login : MonoBehaviour {
 
-    [SerializeField] Button start;
-    Action OnStartClickHandle;
+    [SerializeField] public Button btn_Start;
+    public Action OnStartClickHandle;
 
     public void Ctor() {
-        start.onClick.AddListener(() => {
+        btn_Start.onClick.AddListener(() => {
             OnStartClickHandle.Invoke();
         });
     }
-    
+
+    internal void Close() {
+        GameObject.Destroy(gameObject);
+    }
 }

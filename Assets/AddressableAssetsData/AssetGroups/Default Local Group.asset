@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: ea2bebcdf1a523040a6dd2880f0004db
+  m_SerializeEntries:
+  - m_GUID: e0db03e04142a6f46bb2a099783b5186
+    m_Address: Assets/ResourceRuntime/Panel/Panel_Login.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 564a490ec6e462941a3489dc926b7095
+    m_Address: Assets/ResourceRuntime/Entity/BackSceneEntity/BackSceneEntity.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Entities
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 48526aaadfaad19478292257b9f76f05
+    m_Address: Assets/ResourceRuntime/Entity/BubbleEntity/BubbleEntity.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Entities
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: dd4b3ccd9a9c18e4a973c93043fc07e3, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 405c8cee14c2bf6478131cc8a30375a4, type: 2}
+    - {fileID: 11400000, guid: b1384f9ed76d58c46b806aa07ff4f75a, type: 2}
