@@ -27,6 +27,7 @@ public static class UIApp {
             panel = GameObject.Instantiate<GameObject>(prefab, ctx.screenCanvas.transform).GetComponent<Panel_Login>();
             panel.Ctor();
             panel.OnStartClickHandle = () => { ctx.uIEventCenter.Panel_Login_StartGame(); };
+            // 要赋值给Ctx.Panel_Login
             ctx.panel_Login = panel;
         }
         EventSystem.current.SetSelectedGameObject(panel.btn_Start.gameObject);
