@@ -6,4 +6,8 @@ public static class BublleDomain {
         BubbleEntity bubble = GameFactory.CreateBubble(ctx, pos, typeId);
         return bubble;
     }
+
+    public static void Move(Vector2 dir, BubbleEntity bubble) {
+        bubble.Move(dir);
+    }
 }

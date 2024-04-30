@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: ea2bebcdf1a523040a6dd2880f0004db
   m_currentHash:
     serializedVersion: 2
-    Hash: 3b4974f454ebf1aee12661ddf7d4523b
+    Hash: d0f7296ec3bda4dda5e274bd2f1b0e26
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -89,6 +89,7 @@ MonoBehaviour:
     - default
     - UI
     - Entities
+    - BubbleTM
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 72aaad7f3f2805a42bfce1b2f3c20e90, type: 2}

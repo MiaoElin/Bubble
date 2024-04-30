@@ -13,6 +13,7 @@ public static class GameFactory {
         bubble.typeId = typeId;
         bubble.sr.sprite = tm.spr;
         bubble.id = ctx.iDService.bubbleRecord++;
+        bubble.moveSpeed = tm.moveSpeed;
         bubble.SetPos(pos);
         return bubble;
     }

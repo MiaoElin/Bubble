@@ -9,6 +9,7 @@ public class GameContext {
     public InputEntity input;
     public Canvas screenCanvas;
     public IDService iDService;
+    public BubbleEntity currenBubble;
 
     public GameContext() {
         fsmCom = new GameFSMComponent();

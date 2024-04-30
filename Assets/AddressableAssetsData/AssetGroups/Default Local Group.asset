@@ -35,6 +35,30 @@ MonoBehaviour:
     m_SerializedLabels:
     - Entities
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fc18d823b4b15c84b91ebddd94333761
+    m_Address: Assets/ResourceRuntime/Entity/BubbleEntity/BubbleTM_0.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BubbleTM
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4e81b0e4233b8f9448a8d1bc1f0b9606
+    m_Address: Assets/ResourceRuntime/Entity/BubbleEntity/BubbleTM_1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BubbleTM
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ac7986696a3353341a9580c5a46a7a0a
+    m_Address: Assets/ResourceRuntime/Entity/BubbleEntity/BubbleTM_2.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BubbleTM
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4bf0073f66fb6344a9117b8f48b5424b
+    m_Address: Assets/ResourceRuntime/Entity/BubbleEntity/BubbleTM_3.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BubbleTM
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: dd4b3ccd9a9c18e4a973c93043fc07e3, type: 2}
   m_SchemaSet:
