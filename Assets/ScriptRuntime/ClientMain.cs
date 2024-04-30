@@ -32,8 +32,6 @@ public class ClientMain : MonoBehaviour {
     }
 
     // Update is called once per frame
-    float resetTime = 0;
-    const float IntervalTime = 0.01f;
     void Update() {
         float dt = Time.deltaTime;
 

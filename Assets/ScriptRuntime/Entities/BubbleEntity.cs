@@ -8,7 +8,7 @@ public class BubbleEntity : MonoBehaviour {
     public int typeId;
     public float moveSpeed;
     public Vector2 faceDir;
-    [SerializeField] Rigidbody2D rb;
+    [SerializeField] public Rigidbody2D rb;
 
     public void SetPos(Vector2 pos) {
         transform.position = pos;
@@ -21,6 +21,14 @@ public class BubbleEntity : MonoBehaviour {
         var velocity = rb.velocity;
         velocity = dir.normalized * moveSpeed;
         rb.velocity = velocity;
-        Debug.Log(velocity);
+    }
+
+    void OnCollisionEnter2D(Collision2D other) {
+        if (other.gameObject.tag == "TopCollider") {
+            rb.velocity = Vector3.zero;
+        }
+        if (other.gameObject.tag == "SideCollider") {
+            Debug.Log("side");
+        }
     }
 }

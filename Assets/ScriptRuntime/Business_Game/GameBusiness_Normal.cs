@@ -16,7 +16,7 @@ public static class GameBusiness_Normal {
         // PreTick
         PreTick(ctx, dt);
 
-        // FixedTick
+        // FixedTick 物理相关
         ref var restTime = ref ctx.restTime;
         const float IntervalTime = 0.01f;
         restTime += dt;
@@ -31,7 +31,7 @@ public static class GameBusiness_Normal {
         }
 
         // LateTick
-
+        // 跟表现相关的逻辑，比如扫雷grid信息更新，赋值给Panel的element的部分
 
     }
 
