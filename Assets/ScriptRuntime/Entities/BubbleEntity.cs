@@ -39,6 +39,9 @@ public class BubbleEntity : MonoBehaviour {
             isSideCollision = true;
             Debug.Log(id);
         }
+        if (other.gameObject.tag == "BubbleEntity") {
+            rb.bodyType = RigidbodyType2D.Static;
+        }
     }
 
     void OnCollisionStay2D(Collision2D other) {

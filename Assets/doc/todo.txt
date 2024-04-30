@@ -1,3 +1,4 @@
 === bug ===
 √- 一次会发多颗bubble
 - bubble 没有摩擦力
+- 发射预备Bubble有碰撞bug
