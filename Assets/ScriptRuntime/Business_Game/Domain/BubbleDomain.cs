@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public static class BublleDomain {
 
@@ -7,8 +8,19 @@ public static class BublleDomain {
         return bubble;
     }
 
-    public static void Move(Vector2 dir, BubbleEntity bubble) {
+    public static void Move_ByShoot(BubbleEntity bubble) {
+        Vector2 screenPos = Input.mousePosition;
+        bubble.isShooted = true;
+        Vector2 dir = (Vector2)Camera.main.ScreenToWorldPoint(screenPos) - bubble.GetPos();
+        bubble.faceDir = dir;
         bubble.Move(dir);
+    }
 
+    public static void Move_ByReflect(BubbleEntity bubble) {
+        var facedir = bubble.faceDir;
+        float angleTan = Mathf.Atan(facedir.x / facedir.y);
+        Vector2 up = new Vector2(0, 1);
+        Vector2 dir = new Vector2(-MathF.Sin(angleTan), MathF.Cos(angleTan));
+        bubble.Move(dir);
     }
 }
