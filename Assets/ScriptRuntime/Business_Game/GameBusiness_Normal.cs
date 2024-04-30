@@ -42,10 +42,20 @@ public static class GameBusiness_Normal {
     public static void FixedTick(GameContext ctx, float dt) {
         var currenBubble = ctx.currenBubble;
         if (ctx.input.isMouseLeftDown) {
-            ctx.input.isMouseLeftDown = false;
+            if (currenBubble.isShooted) {
+                return;
+            }
             Vector2 screenPos = Input.mousePosition;
+            currenBubble.isShooted = true;
             Vector2 dir = (Vector2)Camera.main.ScreenToWorldPoint(screenPos) - currenBubble.GetPos();
+            currenBubble.faceDir = dir;
             BublleDomain.Move(dir, currenBubble);
+        } else if (currenBubble.isSideCollision) {
+            var facedir = currenBubble.faceDir;
+            float angleTan = Mathf.Atan(facedir.x / facedir.y);
+            Vector2 up = new Vector2(0, 1);
+            Vector2 newdir = new Vector2(-MathF.Sin(angleTan), MathF.Cos(angleTan));
+            BublleDomain.Move(newdir, currenBubble);
         }
     }
 

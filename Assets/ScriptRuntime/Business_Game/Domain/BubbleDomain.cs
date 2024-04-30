@@ -9,5 +9,6 @@ public static class BublleDomain {
 
     public static void Move(Vector2 dir, BubbleEntity bubble) {
         bubble.Move(dir);
+
     }
 }
