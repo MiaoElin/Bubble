@@ -7,7 +7,7 @@ public class GameFSMComponent {
     public bool isLevelEndEntering;
 
 
-    public void NormalEnter() {
+    public void EnteringNormal() {
         isNormalEntering = true;
         status = GameStatus.Normal;
     }

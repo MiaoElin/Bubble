@@ -6,7 +6,7 @@ using UnityEngine;
 public class ClientMain : MonoBehaviour {
     [SerializeField] Canvas screenCanvas;
     bool isTearDown;
-    MainContext ctx = new MainContext();
+    GameContext ctx = new GameContext();
     void Start() {
         // Inject
         ctx.Inject(screenCanvas);
@@ -15,24 +15,40 @@ public class ClientMain : MonoBehaviour {
         // Bind
         Bind(ctx);
 
-        LoginBusiness.Enter(ctx.loginCtx);
+        LoginBusiness.Enter(ctx);
     }
 
-    private void Load(MainContext ctx) {
-        UIApp.LoadAll(ctx.uiCtx);
+    private void Load(GameContext ctx) {
+        ctx.uiApp.LoadAll();
         AssetCore.LoadAll(ctx.assetCtx);
     }
 
-    private void Bind(MainContext ctx) {
-        var uieventCenter = ctx.uiCtx.uIEventCenter;
+    private void Bind(GameContext ctx) {
+        var uieventCenter = ctx.uiApp.uIEventCenter;
         uieventCenter.OnStartClickHandle += () => {
-            LoginBusiness.Close(ctx.loginCtx);
-            GameBusiness.EnterGame(ctx.gameCtx);
+            LoginBusiness.Close(ctx);
+            GameBusiness.EnterGame(ctx);
         };
     }
 
     // Update is called once per frame
+    float resetTime = 0;
+    const float IntervalTime = 0.01f;
     void Update() {
+        float dt = Time.deltaTime;
+
+        ctx.input.Process();
+
+        resetTime += dt;
+        if (resetTime < IntervalTime) {
+            resetTime = 0;
+            GameBusiness.FixedTick(ctx, dt);
+        } else {
+            while (resetTime >= IntervalTime) {
+                resetTime -= IntervalTime;
+                GameBusiness.FixedTick(ctx, IntervalTime);
+            }
+        }
 
     }
 
@@ -53,7 +69,7 @@ public class ClientMain : MonoBehaviour {
     }
 
     private void UnLoad() {
-        UIApp.UnLoad(ctx.uiCtx);
+        ctx.uiApp.UnLoad();
         AssetCore.UnLoad(ctx.assetCtx);
     }
 }
