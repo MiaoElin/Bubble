@@ -101,8 +101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8c8d86ae9952024980f5fcddaa3bf5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 0, b: 0, a: 0}
-  sr: {fileID: 0}
+  colorType: 0
+  sr: {fileID: 2759679161519443892}
   id: 0
   typeId: 0
 --- !u!58 &1392242016491105295

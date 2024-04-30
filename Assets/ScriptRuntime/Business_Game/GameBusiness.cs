@@ -4,6 +4,7 @@ using UnityEngine;
 public static class GameBusiness {
     public static void EnterGame(GameContext ctx) {
         BackSceneDomain.Spawn(ctx);
+        BublleDomain.Spawn(ctx, new Vector2(0, -8), 0);
         ctx.fsmCom.EnteringNormal();
     }
 
