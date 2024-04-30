@@ -20,7 +20,7 @@ public class ClientMain : MonoBehaviour {
 
     private void Load(GameContext ctx) {
         ctx.uiApp.LoadAll();
-        AssetCore.LoadAll(ctx.assetCtx);
+        ctx.assetCore.LoadAll();
     }
 
     private void Bind(GameContext ctx) {
@@ -70,6 +70,6 @@ public class ClientMain : MonoBehaviour {
 
     private void UnLoad() {
         ctx.uiApp.UnLoad();
-        AssetCore.UnLoad(ctx.assetCtx);
+        ctx.assetCore.UnLoad();
     }
 }

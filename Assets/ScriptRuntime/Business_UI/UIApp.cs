@@ -7,8 +7,10 @@ public class UIApp {
     UIContext ctx;
     public UIEventCenter uIEventCenter => ctx.uIEventCenter;
 
-    public void Inject(UIContext ctx, Canvas screenCanvas) {
-        this.ctx = ctx;
+    public UIApp() {
+        ctx = new UIContext();
+    }
+    public void Inject(Canvas screenCanvas) {
         ctx.Inject(screenCanvas);
     }
     public void LoadAll() {
