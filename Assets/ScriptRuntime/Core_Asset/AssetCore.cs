@@ -7,21 +7,40 @@ public class AssetCore {
     public Dictionary<string, GameObject> allEntities;
     public AsyncOperationHandle entityPtr;
 
+    public Dictionary<int, BubbleTM> bubbleTMs;
+    public AsyncOperationHandle bubblePtr;
+
     public AssetCore() {
         allEntities = new Dictionary<string, GameObject>();
+        bubbleTMs = new Dictionary<int, BubbleTM>();
     }
     public void LoadAll() {
-        var entityPtr = Addressables.LoadAssetsAsync<GameObject>("Entities", null);
-        var list = entityPtr.WaitForCompletion();
-        foreach (var prefab in list) {
-            EntityAdd(prefab.name, prefab);
+        {
+            var ptr = Addressables.LoadAssetsAsync<GameObject>("Entities", null);
+            var list = ptr.WaitForCompletion();
+            foreach (var prefab in list) {
+                EntityAdd(prefab.name, prefab);
+            }
+            this.entityPtr = ptr;
         }
-        this.entityPtr = entityPtr;
+
+        {
+            var ptr = Addressables.LoadAssetsAsync<BubbleTM>("BubbleTM", null);
+            var list = ptr.WaitForCompletion();
+            foreach (var tm in list) {
+                bubbleTMs.Add(tm.typeId, tm);
+            }
+            bubblePtr = ptr;
+        }
     }
     public void UnLoad() {
         if (entityPtr.IsValid()) {
             Addressables.Release(entityPtr);
         }
+        if (bubblePtr.IsValid()) {
+            Addressables.Release(bubblePtr);
+        }
+
     }
 
     public void EntityAdd(string name, GameObject value) {
@@ -30,5 +49,9 @@ public class AssetCore {
 
     public bool TryGetEntityPrefab(string name, out GameObject prefab) {
         return allEntities.TryGetValue(name, out prefab);
+    }
+
+    public bool BubbleTM_TryGet(int typeId, out BubbleTM tm) {
+        return bubbleTMs.TryGetValue(typeId, out tm);
     }
 }
