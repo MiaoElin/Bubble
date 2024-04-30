@@ -15,4 +15,4 @@ MonoBehaviour:
   typeId: 3
   colorType: 4
   spr: {fileID: 21300000, guid: 57ad78dda9b71994aae642f4af9cf94c, type: 3}
-  moveSpeed: 0
+  moveSpeed: 50

@@ -10,7 +10,10 @@ public class GameContext {
     public InputEntity input;
     public Canvas screenCanvas;
     public IDService iDService;
-    public BubbleEntity currenBubble;
+    public BubbleEntity ready_Bubble;
+    public BubbleEntity ready_Bubble2;
+    public BubbleEntity shooting_Bubble;
+
 
     public GameContext() {
         fsmCom = new GameFSMComponent();

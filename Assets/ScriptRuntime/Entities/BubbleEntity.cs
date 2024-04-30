@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BubbleEntity : MonoBehaviour {
@@ -11,6 +12,11 @@ public class BubbleEntity : MonoBehaviour {
     [SerializeField] public Rigidbody2D rb;
     public bool isSideCollision;
     public bool isShooted;
+
+    public BubbleEntity() {
+        isSideCollision = false;
+        isShooted = false;
+    }
 
     public void SetPos(Vector2 pos) {
         transform.position = pos;
@@ -31,7 +37,7 @@ public class BubbleEntity : MonoBehaviour {
         }
         if (other.gameObject.tag == "SideCollider") {
             isSideCollision = true;
-            Debug.Log("side:" + isSideCollision);
+            Debug.Log(id);
         }
     }
 
@@ -46,7 +52,19 @@ public class BubbleEntity : MonoBehaviour {
     }
 
     void OnCollisionExit2D(Collision2D other) {
-        Debug.Log("exit");
         isSideCollision = false;
+    }
+
+    internal void Move_To(Vector2 target, float dt) {
+        Vector2 dir = target - GetPos();
+        Debug.Log(transform.position);
+        if (dir.sqrMagnitude <= moveSpeed * dt) {
+            Debug.Log("arrive");
+            rb.velocity = Vector3.zero;
+            return;
+        }
+        var velocity = rb.velocity;
+        velocity = dir.normalized * moveSpeed;
+        rb.velocity = velocity;
     }
 }

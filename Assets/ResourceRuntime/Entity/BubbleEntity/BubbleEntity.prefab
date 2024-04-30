@@ -108,6 +108,8 @@ MonoBehaviour:
   moveSpeed: 0
   faceDir: {x: 0, y: 0}
   rb: {fileID: 4920547904804980679}
+  isSideCollision: 0
+  isShooted: 0
 --- !u!58 &1392242016491105295
 CircleCollider2D:
   m_ObjectHideFlags: 0

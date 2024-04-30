@@ -4,8 +4,11 @@ using UnityEngine;
 public static class GameBusiness_Normal {
     public static void EnterGame(GameContext ctx) {
         BackSceneDomain.Spawn(ctx);
-        ctx.currenBubble = BublleDomain.Spawn(ctx, new Vector2(0, -8), 0);
+        ctx.ready_Bubble = BublleDomain.Spawn(ctx, new Vector2(0, -8), 0);
+        int typeId = UnityEngine.Random.Range(0, 3);
+        ctx.ready_Bubble2 = BublleDomain.Spawn(ctx, new Vector2(-3, -8), typeId);
         ctx.fsmCom.EnteringNormal();
+        ctx.shooting_Bubble = ctx.ready_Bubble;
     }
 
     public static void Tick(GameContext ctx, float dt) {
@@ -32,7 +35,7 @@ public static class GameBusiness_Normal {
 
         // LateTick
         // 跟表现相关的逻辑，比如扫雷grid信息更新，赋值给Panel的element的部分
-
+        LateTick(ctx, dt);
     }
 
     public static void PreTick(GameContext ctx, float dt) {
@@ -40,18 +43,33 @@ public static class GameBusiness_Normal {
     }
 
     public static void FixedTick(GameContext ctx, float dt) {
-        var currenBubble = ctx.currenBubble;
+        ref var shooting_Bubble = ref ctx.shooting_Bubble;
+        // 检测发射
         if (ctx.input.isMouseLeftDown) {
-            if (currenBubble.isShooted) {
-                return;
-            }
-            BublleDomain.Move_ByShoot(currenBubble);
-        } else if (currenBubble.isSideCollision) {
-            BublleDomain.Move_ByReflect(currenBubble);
+            ctx.input.isMouseLeftDown = false;
+            shooting_Bubble = ctx.ready_Bubble;
+            ctx.ready_Bubble = ctx.ready_Bubble2;
+            ctx.ready_Bubble2 = null;
+            BublleDomain.Move_ByShoot(shooting_Bubble);
+
         }
+        ctx.ready_Bubble.Move_To(new Vector2(0, -8), dt);
+        // if (shooting_Bubble != null && ctx.ready_Bubble.isShooted) {
+        //     BublleDomain.Move_ByShoot(shooting_Bubble);
+        //     ctx.ready_Bubble = null;
+        // }
+        if (shooting_Bubble != null && shooting_Bubble.isSideCollision) {
+            BublleDomain.Move_ByReflect(shooting_Bubble);
+        }
+
+
     }
 
     public static void LateTick(GameContext ctx, float dt) {
-
+        // 重新生成CurrentBubble
+        if (ctx.ready_Bubble2 == null && ctx.ready_Bubble.GetPos() == new Vector2(0, -8)) {
+            int typeId = UnityEngine.Random.Range(0, 3);
+            ctx.ready_Bubble2 = BublleDomain.Spawn(ctx, new Vector2(-3, -8), typeId);
+        }
     }
 }

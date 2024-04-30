@@ -10,7 +10,6 @@ public static class BublleDomain {
 
     public static void Move_ByShoot(BubbleEntity bubble) {
         Vector2 screenPos = Input.mousePosition;
-        bubble.isShooted = true;
         Vector2 dir = (Vector2)Camera.main.ScreenToWorldPoint(screenPos) - bubble.GetPos();
         bubble.faceDir = dir;
         bubble.Move(dir);
