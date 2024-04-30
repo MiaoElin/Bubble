@@ -27,7 +27,7 @@ public class ClientMain : MonoBehaviour {
         var uieventCenter = ctx.uiApp.uIEventCenter;
         uieventCenter.OnStartClickHandle += () => {
             LoginBusiness.Close(ctx);
-            GameBusiness.EnterGame(ctx);
+            GameBusiness_Normal.EnterGame(ctx);
         };
     }
 
@@ -38,16 +38,15 @@ public class ClientMain : MonoBehaviour {
         float dt = Time.deltaTime;
 
         ctx.input.Process();
+        var status = ctx.fsmCom.status;
+        if (status == GameStatus.Login) {
 
-        resetTime += dt;
-        if (resetTime < IntervalTime) {
-            resetTime = 0;
-            GameBusiness.FixedTick(ctx, dt);
-        } else {
-            while (resetTime >= IntervalTime) {
-                resetTime -= IntervalTime;
-                GameBusiness.FixedTick(ctx, IntervalTime);
-            }
+        } else if (status == GameStatus.Normal) {
+            GameBusiness_Normal.Tick(ctx, dt);
+        } else if (status == GameStatus.LevelEnd) {
+
+        } else if (status == GameStatus.Pause) {
+
         }
 
     }

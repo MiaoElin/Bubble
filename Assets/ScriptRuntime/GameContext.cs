@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GameContext {
 
+    public float restTime;
     public GameFSMComponent fsmCom;
     public BackSceneEntity backScene;
     public UIApp uiApp;
