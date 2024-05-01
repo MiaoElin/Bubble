@@ -6,5 +6,6 @@ public class InputEntity {
 
     public void Process() {
         isMouseLeftDown = Input.GetMouseButtonDown(0);
+        Debug.Log(isMouseLeftDown);
     }
 }

@@ -42,33 +42,14 @@ public static class GameBusiness_Normal {
     }
 
     public static void FixedTick(GameContext ctx, float dt) {
-        ref var shooting_Bubble = ref ctx.shooting_Bubble;
-        // 检测发射
-        if (ctx.input.isMouseLeftDown) {
-            ctx.input.isMouseLeftDown = false;
-            shooting_Bubble = ctx.ready_Bubble;
-            ctx.ready_Bubble = null;
-            BubbleDomain.Move_ByShoot(shooting_Bubble);
-
-        }
-        if (shooting_Bubble.isInGrid == true) {
-            shooting_Bubble.isInGrid = false;
-            ctx.ready_Bubble = BubbleDomain.Spawn(ctx, new Vector2(0, -8), ctx.fake_Bubble.typeId);
-            FakeBubbleDomain.UnSpawn(ctx, ctx.fake_Bubble);
-            // ctx.fake_Bubble = FakeBubbleDomain.Spawn(ctx);
-            // ctx.ready_Bubble.Move_To(new Vector2(0, -8), dt);
-        }
-
-        if (shooting_Bubble != null && shooting_Bubble.isSideCollision) {
-            BubbleDomain.Move_ByReflect(shooting_Bubble);
-        }
-
-
+        
+        // 发射Bubble
+        GameNormalDomain.ShootBubble(ctx);
     }
 
     public static void LateTick(GameContext ctx, float dt) {
-        // 重新生成CurrentBubble
-        if (ctx.fake_Bubble == null && ctx.ready_Bubble.GetPos() == new Vector2(0, -8)) {
+        // 重新生成fakeBubble
+        if (ctx.fake_Bubble == null) {
             ctx.fake_Bubble = FakeBubbleDomain.Spawn(ctx);
         }
     }
