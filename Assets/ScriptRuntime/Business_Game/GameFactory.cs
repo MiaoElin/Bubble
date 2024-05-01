@@ -17,4 +17,17 @@ public static class GameFactory {
         bubble.SetPos(pos);
         return bubble;
     }
+
+    public static FakeBubbleEntity CreateFakeBubble(GameContext ctx, Vector2 pos, int typeId) {
+        bool has = ctx.assetCore.FakeBubbleTM_TryGet(typeId, out var tm);
+        if (!has) {
+            Debug.Log($"GameFactory.CreateFakeBubble cant find{typeId}");
+        }
+        ctx.assetCore.TryGetEntityPrefab(typeof(FakeBubbleEntity).Name, out var prefab);
+        FakeBubbleEntity bubble = GameObject.Instantiate(prefab).GetComponent<FakeBubbleEntity>();
+        bubble.typeId = typeId;
+        bubble.sr.sprite = tm.spr;
+        bubble.transform.position = pos;
+        return bubble;
+    }
 }

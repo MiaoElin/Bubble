@@ -11,7 +11,7 @@ public class GameContext {
     public Canvas screenCanvas;
     public IDService iDService;
     public BubbleEntity ready_Bubble;
-    public BubbleEntity ready_Bubble2;
+    public FakeBubbleEntity fake_Bubble;
     public BubbleEntity shooting_Bubble;
 
 

@@ -9,13 +9,15 @@ public class BubbleEntity : MonoBehaviour {
     public int typeId;
     public float moveSpeed;
     public Vector2 faceDir;
-    [SerializeField] public Rigidbody2D rb;
+    [SerializeField] Rigidbody2D rb;
     public bool isSideCollision;
     public bool isShooted;
+    public bool isInGrid;
 
     public BubbleEntity() {
         isSideCollision = false;
         isShooted = false;
+        isInGrid = false;
     }
 
     public void SetPos(Vector2 pos) {
@@ -37,11 +39,10 @@ public class BubbleEntity : MonoBehaviour {
         }
         if (other.gameObject.tag == "SideCollider") {
             isSideCollision = true;
-            Debug.Log(id);
         }
-        if (other.gameObject.tag == "BubbleEntity") {
-            rb.bodyType = RigidbodyType2D.Static;
-        }
+        // if (other.gameObject.tag == "BubbleEntity") {
+        //     rb.bodyType = RigidbodyType2D.Static;
+        // }
     }
 
     void OnCollisionStay2D(Collision2D other) {
@@ -56,6 +57,9 @@ public class BubbleEntity : MonoBehaviour {
 
     void OnCollisionExit2D(Collision2D other) {
         isSideCollision = false;
+        if (other.gameObject.tag == "BottomCollider") {
+            isInGrid = true;
+        }
     }
 
     internal void Move_To(Vector2 target, float dt) {
@@ -69,5 +73,9 @@ public class BubbleEntity : MonoBehaviour {
         var velocity = rb.velocity;
         velocity = dir.normalized * moveSpeed;
         rb.velocity = velocity;
+    }
+
+    public void RemoveRigidboddy() {
+        Destroy(rb.gameObject);
     }
 }

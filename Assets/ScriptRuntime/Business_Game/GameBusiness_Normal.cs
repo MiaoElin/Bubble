@@ -4,9 +4,8 @@ using UnityEngine;
 public static class GameBusiness_Normal {
     public static void EnterGame(GameContext ctx) {
         BackSceneDomain.Spawn(ctx);
-        ctx.ready_Bubble = BublleDomain.Spawn(ctx, new Vector2(0, -8), 0);
-        int typeId = UnityEngine.Random.Range(0, 3);
-        ctx.ready_Bubble2 = BublleDomain.Spawn(ctx, new Vector2(-3, -8), typeId);
+        ctx.ready_Bubble = BubbleDomain.Spawn(ctx, new Vector2(0, -8), 0);
+        ctx.fake_Bubble = FakeBubbleDomain.Spawn(ctx);
         ctx.fsmCom.EnteringNormal();
         ctx.shooting_Bubble = ctx.ready_Bubble;
     }
@@ -48,18 +47,20 @@ public static class GameBusiness_Normal {
         if (ctx.input.isMouseLeftDown) {
             ctx.input.isMouseLeftDown = false;
             shooting_Bubble = ctx.ready_Bubble;
-            ctx.ready_Bubble = ctx.ready_Bubble2;
-            ctx.ready_Bubble2 = null;
-            BublleDomain.Move_ByShoot(shooting_Bubble);
+            ctx.ready_Bubble = null;
+            BubbleDomain.Move_ByShoot(shooting_Bubble);
 
         }
-        ctx.ready_Bubble.Move_To(new Vector2(0, -8), dt);
-        // if (shooting_Bubble != null && ctx.ready_Bubble.isShooted) {
-        //     BublleDomain.Move_ByShoot(shooting_Bubble);
-        //     ctx.ready_Bubble = null;
-        // }
+        if (shooting_Bubble.isInGrid == true) {
+            shooting_Bubble.isInGrid = false;
+            ctx.ready_Bubble = BubbleDomain.Spawn(ctx, new Vector2(0, -8), ctx.fake_Bubble.typeId);
+            FakeBubbleDomain.UnSpawn(ctx, ctx.fake_Bubble);
+            // ctx.fake_Bubble = FakeBubbleDomain.Spawn(ctx);
+            // ctx.ready_Bubble.Move_To(new Vector2(0, -8), dt);
+        }
+
         if (shooting_Bubble != null && shooting_Bubble.isSideCollision) {
-            BublleDomain.Move_ByReflect(shooting_Bubble);
+            BubbleDomain.Move_ByReflect(shooting_Bubble);
         }
 
 
@@ -67,9 +68,8 @@ public static class GameBusiness_Normal {
 
     public static void LateTick(GameContext ctx, float dt) {
         // 重新生成CurrentBubble
-        if (ctx.ready_Bubble2 == null && ctx.ready_Bubble.GetPos() == new Vector2(0, -8)) {
-            int typeId = UnityEngine.Random.Range(0, 3);
-            ctx.ready_Bubble2 = BublleDomain.Spawn(ctx, new Vector2(-3, -8), typeId);
+        if (ctx.fake_Bubble == null && ctx.ready_Bubble.GetPos() == new Vector2(0, -8)) {
+            ctx.fake_Bubble = FakeBubbleDomain.Spawn(ctx);
         }
     }
 }

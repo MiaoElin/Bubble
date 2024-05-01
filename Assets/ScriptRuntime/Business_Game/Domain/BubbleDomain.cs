@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public static class BublleDomain {
+public static class BubbleDomain {
 
     public static BubbleEntity Spawn(GameContext ctx, Vector2 pos, int typeId) {
         BubbleEntity bubble = GameFactory.CreateBubble(ctx, pos, typeId);

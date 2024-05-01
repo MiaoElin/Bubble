@@ -10,9 +10,13 @@ public class AssetCore {
     public Dictionary<int, BubbleTM> bubbleTMs;
     public AsyncOperationHandle bubblePtr;
 
+    public Dictionary<int, FakeBubbleTM> fakeBubbleTMs;
+    public AsyncOperationHandle fakeBubblePtr;
+
     public AssetCore() {
         allEntities = new Dictionary<string, GameObject>();
         bubbleTMs = new Dictionary<int, BubbleTM>();
+        fakeBubbleTMs = new Dictionary<int, FakeBubbleTM>();
     }
     public void LoadAll() {
         {
@@ -32,6 +36,15 @@ public class AssetCore {
             }
             bubblePtr = ptr;
         }
+
+        {
+            var ptr = Addressables.LoadAssetsAsync<FakeBubbleTM>("FakeBubbleTM", null);
+            var list = ptr.WaitForCompletion();
+            foreach (var tm in list) {
+                fakeBubbleTMs.Add(tm.typeId, tm);
+            }
+            fakeBubblePtr = ptr;
+        }
     }
     public void UnLoad() {
         if (entityPtr.IsValid()) {
@@ -39,6 +52,9 @@ public class AssetCore {
         }
         if (bubblePtr.IsValid()) {
             Addressables.Release(bubblePtr);
+        }
+        if (fakeBubblePtr.IsValid()) {
+            Addressables.Release(fakeBubblePtr);
         }
 
     }
@@ -53,5 +69,9 @@ public class AssetCore {
 
     public bool BubbleTM_TryGet(int typeId, out BubbleTM tm) {
         return bubbleTMs.TryGetValue(typeId, out tm);
+    }
+
+    public bool FakeBubbleTM_TryGet(int typeId, out FakeBubbleTM tm) {
+        return fakeBubbleTMs.TryGetValue(typeId, out tm);
     }
 }
