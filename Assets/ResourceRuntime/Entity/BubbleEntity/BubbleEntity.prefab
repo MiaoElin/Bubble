@@ -111,6 +111,9 @@ MonoBehaviour:
   isSideCollision: 0
   isShooted: 0
   isInGrid: 0
+  isArrived: 0
+  hasSetGridPos: 0
+  reflectTimes: 2
 --- !u!58 &1392242016491105295
 CircleCollider2D:
   m_ObjectHideFlags: 0

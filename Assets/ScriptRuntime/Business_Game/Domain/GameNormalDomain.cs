@@ -10,8 +10,9 @@ public static class GameNormalDomain {
         if (ctx.input.isMouseLeftDown) {
             shooting_Bubble = ready_Bubble;
             ready_Bubble = null;
-            BubbleDomain.Move_ByShoot(shooting_Bubble);
-
+            shooting_Bubble.isShooted = true;
+            Vector2 screenPos = Input.mousePosition;
+            shooting_Bubble.faceDir = (Vector2)Camera.main.ScreenToWorldPoint(screenPos) - shooting_Bubble.GetPos();
         }
 
         // 发射的Bubble到了格子的区域（离开发射区）
@@ -22,10 +23,13 @@ public static class GameNormalDomain {
             // 销毁fakeBubble
             FakeBubbleDomain.UnSpawn(ctx, ctx.fake_Bubble);
         }
+        // //有发射的Bubble，且发射的buble撞到了边缘，开始做反射移动
+        // if (shooting_Bubble != null && shooting_Bubble.isSideCollision) {
+        //     if (shooting_Bubble.reflectTimes > 0) {
+        //         BubbleDomain.Move_ByReflect(shooting_Bubble);
 
-        //有发射的Bubble，且发射的buble撞到了边缘，开始做反射移动
-        if (shooting_Bubble != null && shooting_Bubble.isSideCollision) {
-            BubbleDomain.Move_ByReflect(shooting_Bubble);
-        }
+        //     }
+        // }
     }
+
 }

@@ -9,10 +9,19 @@ public class GameContext {
     public AssetCore assetCore;
     public InputEntity input;
     public Canvas screenCanvas;
+
+    // === Repo ===
+    public BubbleRepo bubbleRepo;
+
     public IDService iDService;
+
+    // === Entity ===
     public BubbleEntity ready_Bubble;
     public FakeBubbleEntity fake_Bubble;
     public BubbleEntity shooting_Bubble;
+
+    // === Component ===
+    public GridComponet gridCom;
 
 
     public GameContext() {
@@ -20,7 +29,9 @@ public class GameContext {
         uiApp = new UIApp();
         input = new InputEntity();
         assetCore = new AssetCore();
+        bubbleRepo = new BubbleRepo();
         iDService = new IDService();
+        gridCom = new GridComponet();
     }
 
     public void Inject(Canvas screenCanvas) {

@@ -83,6 +83,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - FakeBubbleTM
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 79dd48623703e394f9625795efcbd4cb
+    m_Address: Assets/ResourceRuntime/Entity/BubbleEntity/FakeBubbleEntity/FakeBubbleEntity.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Entities
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: dd4b3ccd9a9c18e4a973c93043fc07e3, type: 2}
   m_SchemaSet:

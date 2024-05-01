@@ -42,13 +42,31 @@ public static class GameBusiness_Normal {
     }
 
     public static void FixedTick(GameContext ctx, float dt) {
-        
         // 发射Bubble
         GameNormalDomain.ShootBubble(ctx);
+
+        // 遍历修改位置
+        int bubbleLen = ctx.bubbleRepo.TakeAll(out var allBubble);
+        for (int i = 0; i < bubbleLen; i++) {
+            var bubble = allBubble[i];
+            if (bubble.hasSetGridPos) {
+                continue;
+            }
+            if (!bubble.isArrived) {
+                BubbleDomain.Move(bubble);
+                continue;
+            }
+            bool has = ctx.gridCom.TryGetNearlyGrid(bubble.GetPos(), out var gridPos);
+            if (has) {
+                Debug.Log(gridPos);
+                bubble.SetPos(gridPos);
+                bubble.hasSetGridPos = true;
+            }
+        }
     }
 
     public static void LateTick(GameContext ctx, float dt) {
-        // 重新生成fakeBubble
+        // 生成新的fakeBubble
         if (ctx.fake_Bubble == null) {
             ctx.fake_Bubble = FakeBubbleDomain.Spawn(ctx);
         }

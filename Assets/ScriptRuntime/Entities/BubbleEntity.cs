@@ -13,11 +13,26 @@ public class BubbleEntity : MonoBehaviour {
     public bool isSideCollision;
     public bool isShooted;
     public bool isInGrid;
+    public bool isArrived;
+    public bool hasSetGridPos;
+    [NonSerialized] public int reflectTimes;
 
     public BubbleEntity() {
+        // isSideCollision = false;
+        // isShooted = false;
+        // isInGrid = false;
+        // isArrived = false;
+        // hasSetGridPos = false;
+        // // reflectTimes = 2;
+    }
+
+    public void Reset() {
         isSideCollision = false;
         isShooted = false;
         isInGrid = false;
+        isArrived = false;
+        hasSetGridPos = false;
+        reflectTimes = 2;
     }
 
     public void SetPos(Vector2 pos) {
@@ -36,9 +51,14 @@ public class BubbleEntity : MonoBehaviour {
     void OnCollisionEnter2D(Collision2D other) {
         if (other.gameObject.tag == "TopCollider") {
             rb.velocity = Vector3.zero;
+            isArrived = true;
         }
         if (other.gameObject.tag == "SideCollider") {
             isSideCollision = true;
+        }
+        if (other.gameObject.tag == "BubbleEntity") {
+            rb.bodyType = RigidbodyType2D.Static;
+            isArrived = true;
         }
     }
 
@@ -54,6 +74,7 @@ public class BubbleEntity : MonoBehaviour {
 
     void OnCollisionExit2D(Collision2D other) {
         isSideCollision = false;
+        Debug.Log("Exit");
         if (other.gameObject.tag == "BottomCollider") {
             isInGrid = true;
         }

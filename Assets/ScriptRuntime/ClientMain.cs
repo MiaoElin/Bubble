@@ -15,6 +15,8 @@ public class ClientMain : MonoBehaviour {
         // Bind
         Bind(ctx);
 
+        ctx.gridCom.Ctor(15, 10);
+
         LoginBusiness.Enter(ctx);
     }
 
