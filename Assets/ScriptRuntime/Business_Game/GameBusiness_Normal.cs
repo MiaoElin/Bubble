@@ -61,6 +61,7 @@ public static class GameBusiness_Normal {
                 Debug.Log(gridPos);
                 bubble.SetPos(gridPos);
                 bubble.hasSetGridPos = true;
+                bubble.RemoveRigidboddy();
             }
         }
     }

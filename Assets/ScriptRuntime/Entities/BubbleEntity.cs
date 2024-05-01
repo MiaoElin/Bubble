@@ -57,7 +57,6 @@ public class BubbleEntity : MonoBehaviour {
             isSideCollision = true;
         }
         if (other.gameObject.tag == "BubbleEntity") {
-            rb.bodyType = RigidbodyType2D.Static;
             isArrived = true;
         }
     }
@@ -94,6 +93,6 @@ public class BubbleEntity : MonoBehaviour {
     }
 
     public void RemoveRigidboddy() {
-        Destroy(rb.gameObject);
+        DestroyImmediate(rb);
     }
 }

@@ -27,6 +27,7 @@ public static class BubbleDomain {
         if (!bubble.isShooted) {
             return;
         }
+        // 如果碰到左右边缘，做反射运动
         if (bubble.isSideCollision && bubble.reflectTimes > 0) {
             bubble.isSideCollision = false;// 这样才能一帧检测一次
             Debug.Log(bubble.reflectTimes);
