@@ -13,6 +13,18 @@ public class BubbleRepo {
         all.Add(bubble.id, bubble);
     }
 
+    public void Remove(BubbleEntity bubble) {
+        all.Remove(bubble.id);
+    }
+
+    public void Remove(int bubbleId) {
+        all.Remove(bubbleId);
+    }
+
+    public bool Tryget(int id, out BubbleEntity bubble) {
+        return all.TryGetValue(id, out bubble);
+    }
+
     public int TakeAll(out BubbleEntity[] allBubble) {
         if (all.Count >= temp.Length) {
             temp = new BubbleEntity[all.Count * 2];

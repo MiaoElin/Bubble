@@ -6,6 +6,7 @@ public class BubbleEntity : MonoBehaviour {
     public ColorType colorType;
     public SpriteRenderer sr;
     public int id;
+    // public int index;
     public int typeId;
     public float moveSpeed;
     public Vector2 faceDir;
@@ -79,7 +80,6 @@ public class BubbleEntity : MonoBehaviour {
 
     void OnCollisionExit2D(Collision2D other) {
         isSideCollision = false;
-        Debug.Log("Exit");
         if (other.gameObject.tag == "BottomCollider") {
             isInGrid = true;
         }

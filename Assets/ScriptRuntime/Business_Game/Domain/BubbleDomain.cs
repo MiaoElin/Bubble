@@ -18,6 +18,11 @@ public static class BubbleDomain {
         return bubble;
     }
 
+    public static void UnSpawn(GameContext ctx, BubbleEntity bubble) {
+        ctx.bubbleRepo.Remove(bubble);
+        GameObject.Destroy(bubble.gameObject);
+    }
+
     public static void Move_ByShoot(BubbleEntity bubble) {
         bubble.Move(bubble.faceDir);
     }

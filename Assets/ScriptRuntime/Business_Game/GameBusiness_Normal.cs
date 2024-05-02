@@ -10,8 +10,10 @@ public static class GameBusiness_Normal {
             }
             if (grid.enable) {
                 var buble = BubbleDomain.SpawnStatic(ctx, grid.pos, UnityEngine.Random.Range(0, 3));
-                grid.hasBubble = true;
-                grid.colorType = buble.colorType;
+                // grid.hasBubble = true;
+                // grid.colorType = buble.colorType;
+                // grid.bubbleId = buble.id;
+                ctx.gridCom.SetGridHasBubble(grid, buble.colorType, buble.id);
             }
         }
         );
@@ -78,13 +80,30 @@ public static class GameBusiness_Normal {
                 Debug.Log(bubble.colorType + " " + bubble.id + " " + bubble.landingPoint);
             }
             if (has) {
-                Debug.Log(grid.pos);
                 bubble.SetPos(grid.pos);
                 bubble.hasSetGridPos = true;
                 bubble.RemoveRigidboddy();
-                ctx.gridCom.SetGridHasBubble(grid, bubble.colorType);
+                ctx.gridCom.SetGridHasBubble(grid, bubble.colorType, bubble.id);
+                // 更新格子
+                ctx.gridCom.UpdateCenterGrid(grid.index);
             }
         }
+
+        ctx.gridCom.Foreah(grid => {
+            if (!grid.hasBubble || !grid.hasSearch) {
+                return;
+            }
+            bool has = ctx.bubbleRepo.Tryget(grid.bubbleId, out var bubble);
+            if (has) {
+                // BubbleDomain.UnSpawn(ctx, bubble);
+                Debug.Log(grid.index);
+                Debug.Log(bubble.id);
+                ctx.bubbleRepo.Remove(bubble);
+                GameObject.Destroy(bubble.gameObject);
+                grid.Reset();
+            }
+        });
+
     }
 
     public static void LateTick(GameContext ctx, float dt) {
