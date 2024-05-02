@@ -99,7 +99,8 @@ public class BubbleEntity : MonoBehaviour {
     }
 
     public void RemoveRigidboddy() {
-        rb.bodyType = RigidbodyType2D.Static;
+        // rb.bodyType = RigidbodyType2D.Static;
+        DestroyImmediate(rb);
     }
 
     // === Line Render ===
