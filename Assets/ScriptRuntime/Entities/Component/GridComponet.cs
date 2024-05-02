@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class GridComponet {
     public int horizontalCount;
@@ -49,6 +50,17 @@ public class GridComponet {
 
     }
 
+    // 上2颗 下两颗 左右各一颗
+    // o x x o
+    //  x x x    中心点在双数的行 上下要获取 x和x+1 
+    // o x x o
+
+    // o o o o
+    //  x x o        
+    // x x x o    中心点在双数的行 上下要获取 x-1和x 
+    //  x x o
+
+
     public int GetX(int index) {
         return index % horizontalCount;
     }
@@ -82,6 +94,10 @@ public class GridComponet {
             nearlygrid.hasBubble = true;
             return true;
         }
+    }
+
+    public void Foreah(Action<GridEntity> action) {
+        allGrid.ForEach(action);
     }
 
 

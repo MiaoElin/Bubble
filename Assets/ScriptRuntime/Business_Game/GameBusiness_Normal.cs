@@ -3,6 +3,23 @@ using UnityEngine;
 
 public static class GameBusiness_Normal {
     public static void EnterGame(GameContext ctx) {
+        // 生成格子里的泡泡
+        ctx.gridCom.Foreah(grid => {
+            if (grid.index > 44) {
+                return;
+            }
+            if (grid.enable) {
+                var bubble = BubbleDomain.Spawn(ctx, grid.pos, UnityEngine.Random.Range(0, 3));
+                grid.hasBubble = true;
+                bubble.hasSetGridPos = true;
+                bubble.isArrived = true;
+                bubble.RemoveRigidboddy();
+            }
+        }
+
+        );
+
+        // 生成发射器的泡泡
         BackSceneDomain.Spawn(ctx);
         ctx.ready_Bubble = BubbleDomain.Spawn(ctx, new Vector2(0, -8), 0);
         ctx.fake_Bubble = FakeBubbleDomain.Spawn(ctx);
@@ -64,6 +81,7 @@ public static class GameBusiness_Normal {
                 Debug.Log(bubble.colorType + " " + bubble.id + " " + bubble.landingPoint);
             }
             if (has) {
+                Debug.Log(gridPos);
                 bubble.SetPos(gridPos);
                 bubble.hasSetGridPos = true;
                 bubble.RemoveRigidboddy();
