@@ -69,10 +69,9 @@ public class GridComponet {
         return index / horizontalCount;
     }
 
-    public bool TryGetNearlyGrid(Vector2 pos, out Vector2 gridPos) {
+    public bool TryGetNearlyGrid(Vector2 pos, out GridEntity nearlygrid) {
         float nearlyDistance = 16;
-        gridPos = default;
-        GridEntity nearlygrid = null;
+        nearlygrid = null;
         for (int i = 0; i < allGrid.Count; i++) {
             var grid = allGrid[i];
             if (!grid.enable) {
@@ -85,13 +84,11 @@ public class GridComponet {
             if (currentDistan <= nearlyDistance) {
                 nearlyDistance = currentDistan;
                 nearlygrid = grid;
-                gridPos = grid.pos;
             }
         }
-        if (gridPos == default) {
+        if (nearlygrid == default) {
             return false;
         } else {
-            nearlygrid.hasBubble = true;
             return true;
         }
     }
@@ -100,5 +97,14 @@ public class GridComponet {
         allGrid.ForEach(action);
     }
 
+    public void UpdateGrid(int index) {
+        var centerGrid = allGrid[index];
+        // gridCount
+    }
+
+    public void SetGridHasBubble(GridEntity grid, ColorType colorType) {
+        grid.hasBubble = true;
+        grid.colorType = colorType;
+    }
 
 }

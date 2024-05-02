@@ -9,8 +9,9 @@ public static class GameBusiness_Normal {
                 return;
             }
             if (grid.enable) {
+                var buble = BubbleDomain.SpawnStatic(ctx, grid.pos, UnityEngine.Random.Range(0, 3));
                 grid.hasBubble = true;
-                BubbleDomain.SpawnStatic(ctx, grid.pos, UnityEngine.Random.Range(0, 3));
+                grid.colorType = buble.colorType;
             }
         }
         );
@@ -72,15 +73,16 @@ public static class GameBusiness_Normal {
                 BubbleDomain.Move(bubble);
                 continue;
             }
-            bool has = ctx.gridCom.TryGetNearlyGrid(bubble.landingPoint, out var gridPos);
+            bool has = ctx.gridCom.TryGetNearlyGrid(bubble.landingPoint, out var grid);
             if (!has) {
                 Debug.Log(bubble.colorType + " " + bubble.id + " " + bubble.landingPoint);
             }
             if (has) {
-                Debug.Log(gridPos);
-                bubble.SetPos(gridPos);
+                Debug.Log(grid.pos);
+                bubble.SetPos(grid.pos);
                 bubble.hasSetGridPos = true;
                 bubble.RemoveRigidboddy();
+                ctx.gridCom.SetGridHasBubble(grid, bubble.colorType);
             }
         }
     }
