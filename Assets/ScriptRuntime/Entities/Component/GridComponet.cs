@@ -93,7 +93,7 @@ public class GridComponet {
             isSingular = true;
         }
 
-        for (int j = -1; j < 1; j++) {
+        for (int j = -1; j <= 1; j++) {
             if (j == 0) {
                 for (int i = -1; i <= 1; i++) {
                     if (i == 0) {

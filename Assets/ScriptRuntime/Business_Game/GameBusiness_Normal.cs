@@ -89,17 +89,14 @@ public static class GameBusiness_Normal {
             }
         }
 
+        // 消除泡泡
         ctx.gridCom.Foreah(grid => {
             if (!grid.hasBubble || !grid.hasSearch) {
                 return;
             }
             bool has = ctx.bubbleRepo.Tryget(grid.bubbleId, out var bubble);
             if (has) {
-                // BubbleDomain.UnSpawn(ctx, bubble);
-                Debug.Log(grid.index);
-                Debug.Log(bubble.id);
-                ctx.bubbleRepo.Remove(bubble);
-                GameObject.Destroy(bubble.gameObject);
+                BubbleDomain.UnSpawn(ctx, bubble);
                 grid.Reset();
             }
         });
