@@ -3,20 +3,16 @@ using UnityEngine;
 
 public static class GameBusiness_Normal {
     public static void EnterGame(GameContext ctx) {
-        // 生成格子里的泡泡
+        // 生成临时关卡
         ctx.gridCom.Foreah(grid => {
             if (grid.index > 44) {
                 return;
             }
             if (grid.enable) {
-                var bubble = BubbleDomain.Spawn(ctx, grid.pos, UnityEngine.Random.Range(0, 3));
                 grid.hasBubble = true;
-                bubble.hasSetGridPos = true;
-                bubble.isArrived = true;
-                bubble.RemoveRigidboddy();
+                BubbleDomain.SpawnStatic(ctx, grid.pos, UnityEngine.Random.Range(0, 3));
             }
         }
-
         );
 
         // 生成发射器的泡泡

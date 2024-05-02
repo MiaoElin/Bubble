@@ -10,6 +10,14 @@ public static class BubbleDomain {
         return bubble;
     }
 
+    public static BubbleEntity SpawnStatic(GameContext ctx, Vector2 pos, int typeId) {
+        var bubble = BubbleDomain.Spawn(ctx, pos, typeId);
+        bubble.hasSetGridPos = true;
+        bubble.isArrived = true;
+        bubble.RemoveRigidboddy();
+        return bubble;
+    }
+
     public static void Move_ByShoot(BubbleEntity bubble) {
         bubble.Move(bubble.faceDir);
     }
