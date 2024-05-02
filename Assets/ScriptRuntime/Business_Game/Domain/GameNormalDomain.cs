@@ -9,6 +9,9 @@ public static class GameNormalDomain {
 
         // 检测发射
         if (ctx.input.isMouseLeftDown) {
+            // shoot sfx
+            ctx.soundCore.BubbleShootPlay(ctx.backScene.bubbleBreak);
+
             ready_Bubble.SetlineREnable(false);
             ready_Bubble.SetlineR2Enable(false);
             shooting_Bubble = ready_Bubble;

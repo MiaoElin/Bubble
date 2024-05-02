@@ -23,6 +23,7 @@ public class ClientMain : MonoBehaviour {
     private void Load(GameContext ctx) {
         ctx.uiApp.LoadAll();
         ctx.assetCore.LoadAll();
+        ctx.soundCore.Load();
     }
 
     private void Bind(GameContext ctx) {

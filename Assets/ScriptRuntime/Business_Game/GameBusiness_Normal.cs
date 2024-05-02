@@ -18,8 +18,13 @@ public static class GameBusiness_Normal {
         }
         );
 
-        // 生成发射器的泡泡
+        // 生成背景场景
         BackSceneDomain.Spawn(ctx);
+
+        //播放背景音乐 
+        ctx.soundCore.BgmPlay(ctx.backScene.bgm);
+
+        // 生成发射器的泡泡
         ctx.ready_Bubble = BubbleDomain.Spawn(ctx, new Vector2(0, -8), 0);
         ctx.fake_Bubble = FakeBubbleDomain.Spawn(ctx);
         ctx.fsmCom.EnteringNormal();
@@ -63,6 +68,7 @@ public static class GameBusiness_Normal {
 
         // 发射Bubble
         GameNormalDomain.ShootBubble(ctx);
+
 
         // 遍历Bubble修改位置
         int bubbleLen = ctx.bubbleRepo.TakeAll(out var allBubble);

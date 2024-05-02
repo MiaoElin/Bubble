@@ -816,6 +816,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1815203559944834471}
+  - component: {fileID: 4441048399558811913}
   m_Layer: 0
   m_Name: BackSceneEntity
   m_TagString: Untagged
@@ -846,6 +847,24 @@ Transform:
   - {fileID: 5701291242927552516}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4441048399558811913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8756656754609221711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32c9b35c53a4fc6468bd0cf60ddad73d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spr_BG: {fileID: 0}
+  spr_Middle: {fileID: 0}
+  spr_Spawner: {fileID: 0}
+  bgm: {fileID: 8300000, guid: 072f0c0747a94b345841b22f3c793a71, type: 3}
+  bubbleBreak: {fileID: 8300000, guid: c17000ef5eda87c4fad544a8718922fd, type: 3}
+  bubbleShoot: {fileID: 8300000, guid: 92d4896b0a24d0446b1db5cb057900f4, type: 3}
 --- !u!1 &8871938633410772206
 GameObject:
   m_ObjectHideFlags: 0

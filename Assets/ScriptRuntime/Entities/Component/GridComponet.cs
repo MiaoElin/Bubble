@@ -7,7 +7,7 @@ public class GridComponet {
     public int verticalCount;
     List<GridEntity> allGrid;
     Vector2 gridSize;
-    int[] tempArray;
+    List<int> tempArray;
 
     public GridComponet() {
         allGrid = new List<GridEntity>();
@@ -20,7 +20,7 @@ public class GridComponet {
         this.verticalCount = verticalCount;
 
         int gridCount = horzontalCount * verticalCount;
-        tempArray = new int[gridCount];
+        tempArray = new List<int>();
 
         float firGridX = (-(float)horzontalCount / 2) * gridSize.x + gridSize.x / 2;
         float firGridY = ((float)verticalCount / 2) * gridSize.y + gridSize.y / 2;
@@ -68,23 +68,28 @@ public class GridComponet {
         var centerGrid = allGrid[index];
         centerGrid.hasSearch = true;
         centerGrid.centerCount = 1;
-        Array.Clear(tempArray, 0, tempArray.Length);
-        tempArray[1] = centerGrid.index;
+        tempArray.Clear();
+        tempArray.Add(index);
         TryGetArroundCount(index, centerGrid, tempArray);
         Debug.Log("centerCount is: " + centerGrid.centerCount);
         if (centerGrid.centerCount < 3) {
-            for (int i = 0; i < tempArray.Length; i++) {
-                if (tempArray[i] == default) {
-                    continue;
-                }
+            for (int i = 0; i < tempArray.Count; i++) {
+                // if (tempArray[i] == default) {
+                //     if (tempArray[i] == 0) {
+                //         Debug.Log("in");
+                //     }
+                //     continue;
+                // }
+                // bug :CenterCount2个的时候，0处的grid没有被重置
                 var id = tempArray[i];
+                // Debug.Log(i + ":" + id);
                 var grid = allGrid[id];
                 grid.hasSearch = false;
             }
         }
     }
 
-    public void TryGetArroundCount(int index, GridEntity centerGrid, int[] tempArray) {
+    public void TryGetArroundCount(int index, GridEntity centerGrid, List<int> temp) {
         int line = GetY(index);
 
         bool isSingular = false;
@@ -99,23 +104,23 @@ public class GridComponet {
                     if (i == 0) {
                         continue;
                     }
-                    TryGetCenterCount(index, i, j, centerGrid, ref tempArray);
+                    TryGetCenterCount(index, i, j, centerGrid, ref temp);
                 }
             } else {
                 if (isSingular) {
                     for (int i = 0; i <= 1; i++) {
-                        TryGetCenterCount(index, i, j, centerGrid, ref tempArray);
+                        TryGetCenterCount(index, i, j, centerGrid, ref temp);
                     }
                 } else {
                     for (int i = -1; i < 1; i++) {
-                        TryGetCenterCount(index, i, j, centerGrid, ref tempArray);
+                        TryGetCenterCount(index, i, j, centerGrid, ref temp);
                     }
                 }
             }
         }
     }
 
-    public void TryGetCenterCount(int index, int xOffset, int yOffset, GridEntity centerGrid, ref int[] tempArray) {
+    public void TryGetCenterCount(int index, int xOffset, int yOffset, GridEntity centerGrid, ref List<int> tempArray) {
         int x = GetX(index) + xOffset;
         int y = GetY(index) + yOffset;
         if (x < 0 || x >= horizontalCount || y < 0 || y >= verticalCount) {
@@ -130,7 +135,7 @@ public class GridComponet {
             grid.hasSearch = true;
             centerGrid.centerCount += 1;
             Debug.Log(grid.index + " " + grid.colorType);
-            tempArray[centerGrid.centerCount] = grid.index;
+            tempArray.Add(grid.index);
             TryGetArroundCount(grid.index, centerGrid, tempArray);
         }
     }

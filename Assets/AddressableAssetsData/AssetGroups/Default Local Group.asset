@@ -89,6 +89,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Entities
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4b57dad3f7be437459b4f1c89e5e50c6
+    m_Address: Assets/ResourceRuntime/Audio Source.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AudioSource
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: dd4b3ccd9a9c18e4a973c93043fc07e3, type: 2}
   m_SchemaSet:
