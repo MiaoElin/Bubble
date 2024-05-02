@@ -16,6 +16,9 @@ public class BubbleEntity : MonoBehaviour {
     public bool isArrived;
     public bool hasSetGridPos;
     [NonSerialized] public int reflectTimes;
+    [SerializeField] LineRenderer lineR;
+    [SerializeField] LineRenderer lineRReflet;
+    public Vector2 landingPoint;
 
     public BubbleEntity() {
         // isSideCollision = false;
@@ -33,6 +36,9 @@ public class BubbleEntity : MonoBehaviour {
         isArrived = false;
         hasSetGridPos = false;
         reflectTimes = 2;
+        SetlineREnable(false);
+        SetlineR2Enable(false);
+        faceDir = new Vector2(0, 1);
     }
 
     public void SetPos(Vector2 pos) {
@@ -93,6 +99,25 @@ public class BubbleEntity : MonoBehaviour {
     }
 
     public void RemoveRigidboddy() {
-        DestroyImmediate(rb);
+        rb.bodyType = RigidbodyType2D.Static;
+    }
+
+    // === Line Render ===
+    public void SetlineREnable(bool b) {
+        lineR.enabled = b;
+    }
+
+    public void SetLinePos(Vector2 endPos) {
+        lineR.SetPosition(0, GetPos() + faceDir.normalized * 1.5f);
+        lineR.SetPosition(1, endPos);
+    }
+
+    public void SetlineR2Enable(bool b) {
+        lineRReflet.enabled = b;
+    }
+
+    public void SetLine2Pos(Vector2 start, Vector2 endPos) {
+        lineRReflet.SetPosition(0, start);
+        lineRReflet.SetPosition(1, endPos);
     }
 }

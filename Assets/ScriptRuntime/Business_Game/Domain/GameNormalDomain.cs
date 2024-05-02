@@ -8,6 +8,8 @@ public static class GameNormalDomain {
 
         // 检测发射
         if (ctx.input.isMouseLeftDown) {
+            ready_Bubble.SetlineREnable(false);
+            ready_Bubble.SetlineR2Enable(false);
             shooting_Bubble = ready_Bubble;
             ready_Bubble = null;
             shooting_Bubble.isShooted = true;

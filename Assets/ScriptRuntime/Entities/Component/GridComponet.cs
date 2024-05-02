@@ -44,7 +44,6 @@ public class GridComponet {
             }
             grid.Ctor(i, pos);
             grid.enable = true;
-            Debug.Log(i);
             allGrid.Add(grid);
         }
 
@@ -59,8 +58,7 @@ public class GridComponet {
     }
 
     public bool TryGetNearlyGrid(Vector2 pos, out Vector2 gridPos) {
-        float nearlyDistance = (gridSize.x / 2) * (gridSize.x / 2);
-        Debug.Log(nearlyDistance);
+        float nearlyDistance = 16;
         gridPos = default;
         GridEntity nearlygrid = null;
         for (int i = 0; i < allGrid.Count; i++) {
