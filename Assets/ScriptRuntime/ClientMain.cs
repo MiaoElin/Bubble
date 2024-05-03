@@ -18,6 +18,24 @@ public class ClientMain : MonoBehaviour {
         ctx.gridCom.Ctor(15, 8);
 
         LoginBusiness.Enter(ctx);
+
+        // int[] arr = new int[10];
+        // arr[0] = 0;
+        // arr[1] = 0;
+        // foreach (var i in arr) {
+        //     if (i == 0) {
+        //         Debug.Log("arr1:" + i);
+        //         continue;
+        //     }
+        // }
+        // Array.Clear(arr, 0, arr.Length);
+        // arr[0] = 0;
+        // foreach (var i in arr) {
+        //     if (i == 0) {
+        //         Debug.Log("arr2:" +i);
+        //         continue;
+        //     }
+        // }
     }
 
     private void Load(GameContext ctx) {

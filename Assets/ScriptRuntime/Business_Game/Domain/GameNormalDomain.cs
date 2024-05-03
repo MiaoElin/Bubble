@@ -8,21 +8,24 @@ public static class GameNormalDomain {
         ref var ready_Bubble = ref ctx.ready_Bubble;
 
         // 检测发射
-        if (ctx.input.isMouseLeftDown) {
-            // shoot sfx
-            ctx.soundCore.BubbleShootPlay(ctx.backScene.bubbleBreak);
+        if (ctx.input.isMouseLeftDown && ready_Bubble) {
+            if (!shooting_Bubble || shooting_Bubble.isArrived) {
+                // shoot sfx
+                ctx.soundCore.BubbleShootPlay(ctx.backScene.bubbleBreak);
 
-            ready_Bubble.SetlineREnable(false);
-            ready_Bubble.SetlineR2Enable(false);
-            shooting_Bubble = ready_Bubble;
-            ready_Bubble = null;
-            shooting_Bubble.isShooted = true;
-            Vector2 screenPos = Input.mousePosition;
-            shooting_Bubble.faceDir = (Vector2)Camera.main.ScreenToWorldPoint(screenPos) - shooting_Bubble.GetPos();
+                ready_Bubble.SetlineREnable(false);
+                ready_Bubble.SetlineR2Enable(false);
+                shooting_Bubble = ready_Bubble;
+                ready_Bubble = null;
+                shooting_Bubble.isShooted = true;
+                Vector2 screenPos = Input.mousePosition;
+                shooting_Bubble.faceDir = (Vector2)Camera.main.ScreenToWorldPoint(screenPos) - shooting_Bubble.GetPos();
+            }
+
         }
 
         // 发射的Bubble到了格子的区域（离开发射区）
-        if (shooting_Bubble.isInGrid == true) {
+        if (shooting_Bubble && shooting_Bubble.isInGrid == true) {
             shooting_Bubble.isInGrid = false;
             // 根据FakeBubble生成新的ReadyBubble
             ready_Bubble = BubbleDomain.Spawn(ctx, new Vector2(0, -8), ctx.fake_Bubble.typeId);

@@ -28,7 +28,7 @@ public static class GameBusiness_Normal {
         ctx.ready_Bubble = BubbleDomain.Spawn(ctx, new Vector2(0, -8), 0);
         ctx.fake_Bubble = FakeBubbleDomain.Spawn(ctx);
         ctx.fsmCom.EnteringNormal();
-        ctx.shooting_Bubble = ctx.ready_Bubble;
+        // ctx.shooting_Bubble = ctx.ready_Bubble;
     }
 
     public static void Tick(GameContext ctx, float dt) {
