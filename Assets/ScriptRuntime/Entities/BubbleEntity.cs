@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using GameFunctions;
 
 public class BubbleEntity : MonoBehaviour {
 
@@ -17,9 +18,13 @@ public class BubbleEntity : MonoBehaviour {
     public bool isArrived;
     public bool hasSetGridPos;
     [NonSerialized] public int reflectTimes;
-    [SerializeField] LineRenderer lineR;
-    [SerializeField] LineRenderer lineRReflet;
     public Vector2 landingPoint;
+
+    public bool enterFallingEasing;
+    public float fallingTimer;
+    public float fallingMoutainDuration;
+    public float fallingDuration;
+    public Vector2 fallingPos;
 
     public BubbleEntity() {
         // isSideCollision = false;
@@ -37,9 +42,13 @@ public class BubbleEntity : MonoBehaviour {
         isArrived = false;
         hasSetGridPos = false;
         reflectTimes = 2;
-        SetlineREnable(false);
-        SetlineR2Enable(false);
         faceDir = new Vector2(0, 1);
+
+        enterFallingEasing = false;
+        fallingTimer = 0;
+        fallingMoutainDuration = 0.3f;
+        fallingDuration = 0.35f;
+
     }
 
     public void SetPos(Vector2 pos) {
@@ -89,7 +98,6 @@ public class BubbleEntity : MonoBehaviour {
         Vector2 dir = target - GetPos();
         Debug.Log(transform.position);
         if (dir.sqrMagnitude <= moveSpeed * dt) {
-            Debug.Log("arrive");
             rb.velocity = Vector3.zero;
             return;
         }
@@ -103,22 +111,16 @@ public class BubbleEntity : MonoBehaviour {
         DestroyImmediate(rb);
     }
 
-    // === Line Render ===
-    public void SetlineREnable(bool b) {
-        lineR.enabled = b;
-    }
+    public void FallingEasing(float dt) {
+        fallingTimer += dt;
 
-    public void SetLinePos(Vector2 endPos) {
-        lineR.SetPosition(0, GetPos() + faceDir.normalized * 1.5f);
-        lineR.SetPosition(1, endPos);
-    }
-
-    public void SetlineR2Enable(bool b) {
-        lineRReflet.enabled = b;
-    }
-
-    public void SetLine2Pos(Vector2 start, Vector2 endPos) {
-        lineRReflet.SetPosition(0, start);
-        lineRReflet.SetPosition(1, endPos);
+        if (fallingTimer <= fallingMoutainDuration) {
+            transform.position = GFEasing.Ease2D(GFEasingEnum.MountainInSine, fallingTimer, fallingMoutainDuration, fallingPos, new Vector2(fallingPos.x, fallingPos.y + 3));
+        } else if (fallingTimer <= fallingDuration) {
+            transform.position = GFEasing.Ease2D(GFEasingEnum.Linear, fallingTimer, fallingDuration, fallingPos, new Vector2(fallingPos.x, -9));
+        } else if (fallingTimer > fallingDuration) {
+            fallingTimer = 0;
+            enterFallingEasing = false;
+        }
     }
 }

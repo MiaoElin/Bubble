@@ -24,7 +24,11 @@ public class GridEntity {
     public void Reset() {
         bubbleId = default;
         hasBubble = false;
+        
         hasSearchColor = false;
         colorType = ColorType.None;
+
+        isNeedFalling = false;
+        hasSearchTraction = false;
     }
 }

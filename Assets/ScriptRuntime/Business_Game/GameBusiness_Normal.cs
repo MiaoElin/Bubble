@@ -103,6 +103,7 @@ public static class GameBusiness_Normal {
             if (!grid.hasBubble || !grid.hasSearchColor) {
                 return;
             }
+
             bool has = ctx.bubbleRepo.Tryget(grid.bubbleId, out var bubble);
             if (has) {
                 BubbleDomain.UnSpawn(ctx, bubble);
@@ -118,8 +119,12 @@ public static class GameBusiness_Normal {
             }
             // Debug.Log(grid.index);
             ctx.bubbleRepo.Tryget(grid.bubbleId, out var bubble);
-            BubbleDomain.UnSpawn(ctx, bubble);
-            grid.Reset();
+            bubble.fallingPos = grid.pos;
+            bubble.FallingEasing(dt);
+            if (bubble.fallingTimer <= 0) {
+                BubbleDomain.UnSpawn(ctx, bubble);
+                grid.Reset();
+            }
         });
 
     }
@@ -130,5 +135,12 @@ public static class GameBusiness_Normal {
         //     ctx.fake_Bubble = FakeBubbleDomain.Spawn(ctx);
         // }
         FakeBubbleDomain.MoveToByEasing(ctx, dt);
+        // int bubblelen = ctx.bubbleRepo.TakeAll(out var allbubble);
+        // for (int i = 0; i < bubblelen; i++) {
+        //     var bubble = allbubble[i];
+        //     if (bubble.enterFallingEasing) {
+        //         bubble.FallingEasing(dt);
+        //     }
+        // }
     }
 }
