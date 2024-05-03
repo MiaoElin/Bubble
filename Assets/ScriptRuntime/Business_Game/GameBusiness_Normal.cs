@@ -5,7 +5,7 @@ public static class GameBusiness_Normal {
     public static void EnterGame(GameContext ctx) {
         // 生成临时关卡
         ctx.gridCom.Foreah(grid => {
-            if (grid.index > 44) {
+            if (grid.index > 59) {
                 return;
             }
             if (grid.enable) {
@@ -28,7 +28,7 @@ public static class GameBusiness_Normal {
 
         // 生成发射器的泡泡
         ctx.ready_Bubble1 = FakeBubbleDomain.Spawn(ctx, Vector2Const.ReadyBubble1, UnityEngine.Random.Range(0, 3), new Vector3(1, 1, 1));
-        ctx.ready_Bubble2 = FakeBubbleDomain.Spawn(ctx, Vector2Const.ReadyBubble1, UnityEngine.Random.Range(0, 3), new Vector3(0.5f, 0.5f, 0.5f));
+        ctx.ready_Bubble2 = FakeBubbleDomain.Spawn(ctx, Vector2Const.ReadyBubble2, UnityEngine.Random.Range(0, 3), new Vector3(0.5f, 0.5f, 0.5f));
         ctx.fsmCom.EnteringNormal();
         // ctx.shooting_Bubble = ctx.ready_Bubble;
     }
@@ -100,7 +100,7 @@ public static class GameBusiness_Normal {
 
         // 消除泡泡
         ctx.gridCom.Foreah(grid => {
-            if (!grid.hasBubble || !grid.hasSearch) {
+            if (!grid.hasBubble || !grid.hasSearchColor) {
                 return;
             }
             bool has = ctx.bubbleRepo.Tryget(grid.bubbleId, out var bubble);
@@ -108,6 +108,18 @@ public static class GameBusiness_Normal {
                 BubbleDomain.UnSpawn(ctx, bubble);
                 grid.Reset();
             }
+        });
+
+        // 更新IsNeedFalling
+        ctx.gridCom.UpdateTraction();
+        ctx.gridCom.Foreah(grid => {
+            if (!grid.hasBubble || !grid.isNeedFalling) {
+                return;
+            }
+            // Debug.Log(grid.index);
+            ctx.bubbleRepo.Tryget(grid.bubbleId, out var bubble);
+            BubbleDomain.UnSpawn(ctx, bubble);
+            grid.Reset();
         });
 
     }

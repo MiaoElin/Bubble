@@ -7,7 +7,10 @@ public class GridComponet {
     public int verticalCount;
     List<GridEntity> allGrid;
     Vector2 gridSize;
-    List<int> tempArray;
+    List<int> searchColorTemp;
+    List<int> searchTractionTemp;
+
+
 
     public GridComponet() {
         allGrid = new List<GridEntity>();
@@ -20,7 +23,8 @@ public class GridComponet {
         this.verticalCount = verticalCount;
 
         int gridCount = horzontalCount * verticalCount;
-        tempArray = new List<int>();
+        searchColorTemp = new List<int>();
+        searchTractionTemp = new List<int>();
 
         float firGridX = (-(float)horzontalCount / 2) * gridSize.x + gridSize.x / 2;
         float firGridY = ((float)verticalCount / 2) * gridSize.y + gridSize.y / 2;
@@ -47,6 +51,9 @@ public class GridComponet {
                 pos = firgrid1 + new Vector2(gridSize.x * x, -gridSize.y / 2 * Mathf.Sqrt(3) * y);
             }
 
+            if (i < horizontalCount) {
+                grid.isNeedFalling = false;
+            }
             grid.Ctor(i, pos);
             grid.enable = true;
             allGrid.Add(grid);
@@ -64,16 +71,16 @@ public class GridComponet {
     // x x x o    中心点在双数的行 上下要获取 x-1和x 
     //  x x o
 
+    #region UpdateCenterGrid
     public void UpdateCenterGrid(int index) {
         var centerGrid = allGrid[index];
-        centerGrid.hasSearch = true;
+        centerGrid.hasSearchColor = true;
         centerGrid.centerCount = 1;
-        tempArray.Clear();
-        tempArray.Add(index);
-        TryGetArroundCount(index, centerGrid, tempArray);
-        Debug.Log("centerCount is: " + centerGrid.centerCount);
+        searchColorTemp.Clear();
+        searchColorTemp.Add(index);
+        TryGetArroundCount(index, centerGrid, searchColorTemp);
         if (centerGrid.centerCount < 3) {
-            for (int i = 0; i < tempArray.Count; i++) {
+            for (int i = 0; i < searchColorTemp.Count; i++) {
                 // if (tempArray[i] == default) {
                 //     if (tempArray[i] == 0) {
                 //         Debug.Log("in");
@@ -81,10 +88,10 @@ public class GridComponet {
                 //     continue;
                 // }
                 // bug :CenterCount2个的时候，0处的grid没有被重置
-                var id = tempArray[i];
+                var id = searchColorTemp[i];
                 // Debug.Log(i + ":" + id);
                 var grid = allGrid[id];
-                grid.hasSearch = false;
+                grid.hasSearchColor = false;
             }
         }
     }
@@ -128,11 +135,11 @@ public class GridComponet {
         }
         int id = GetIndex(x, y);
         var grid = allGrid[id];
-        if (grid.hasSearch) {
+        if (!grid.hasBubble || grid.hasSearchColor) {
             return;
         }
         if (grid.colorType == centerGrid.colorType) {
-            grid.hasSearch = true;
+            grid.hasSearchColor = true;
             centerGrid.centerCount += 1;
             // Debug.Log(grid.index + " " + grid.colorType);
             tempArray.Add(grid.index);
@@ -140,18 +147,137 @@ public class GridComponet {
         }
     }
 
-    public void ReuseGrid(int index, int xOffset, int yOffset, GridEntity centerGrid) {
-        int x = GetX(index) + xOffset;
-        int y = GetY(index) + yOffset;
-        if (x < 0 || x >= horizontalCount || y < 0 || y >= verticalCount) {
-            return;
-        }
-        int id = GetIndex(x, y);
-        var grid = allGrid[id];
-        if (grid.hasSearch) {
-            grid.hasSearch = false;
+    #endregion
+
+    #region UpdateTraction
+
+    public void UpdateTraction() {
+        // 检测每个grid，有bubble的，检测它的周围连接的所有grid。有位于顶部的算是有牵引的，否则移除
+        for (int i = 0; i < allGrid.Count; i++) {
+            if (i < horizontalCount) {
+                continue;
+            }
+            var grid = allGrid[i];
+            if (!grid.hasBubble) {
+                continue;
+            }
+            grid.hasSearchTraction = true;
+            searchTractionTemp.Clear();
+            searchTractionTemp.Add(grid.index);
+
+            // 先设为true
+            grid.isNeedFalling = true;
+            GetArroundTraction(i, grid, ref searchTractionTemp);
+
+            // 不需要掉落
+            if (!grid.isNeedFalling) {
+                // Debug.Log("noneed" + grid.index);
+                // 还原搜索
+                foreach (var index in searchTractionTemp) {
+                    // Debug.Log("out" + grid.index);
+                    var gri = allGrid[index];
+                    gri.hasSearchTraction = false;
+                }
+            } else {
+                // Debug.Log("IN" + grid.index);
+                // foreach (var index in searchTractionTemp) {
+                //     var gri = allGrid[index];
+                //     gri.isNeedFalling = true;
+                // }
+            }
+
         }
     }
+    public void GetArroundTraction(int i, GridEntity grid, ref List<int> searchTraction) {
+
+        // 判断单双行
+        int line = GetY(i);
+        bool isSingular = false;
+
+        if (line % 2 == 1) {
+            isSingular = true;
+        }
+        // 搜索周围有bubble的格子，如果有一个是在顶部，就不用掉落
+        for (int j = -1; j <= 1; j++) {
+            if (j == 0) {
+                for (int k = -1; k <= 1; k++) {
+                    if (k == 0) {
+                        continue;
+                    }
+                    int x = GetX(i) + k;
+                    int y = GetY(i) + j;
+                    if (x < 0 || x >= horizontalCount || y < 0 || y >= verticalCount) {
+                        continue;
+                    }
+                    int index = GetIndex(x, y);
+                    var newGrid = allGrid[index];
+                    if (!newGrid.hasBubble || newGrid.hasSearchTraction) {
+                        continue;
+                    }
+
+                    if (y == 0) {
+                        grid.isNeedFalling = false;
+                        return;
+                    } else {
+                        newGrid.hasSearchTraction = true;
+                        searchTraction.Add(newGrid.index);
+                        GetArroundTraction(newGrid.index, grid, ref searchTraction);
+                    }
+                }
+            } else {
+                if (isSingular) {
+                    for (int k = 0; k <= 1; k++) {
+                        int x = GetX(i) + k;
+                        int y = GetY(i) + j;
+                        if (x < 0 || x >= horizontalCount || y < 0 || y >= verticalCount) {
+                            continue;
+                        }
+                        int index = GetIndex(x, y);
+                        var newGrid = allGrid[index];
+                        if (!newGrid.hasBubble || newGrid.hasSearchTraction) {
+                            continue;
+                        }
+
+                        if (y == 0) {
+                            grid.isNeedFalling = false;
+                            return;
+                        } else {
+                            newGrid.hasSearchTraction = true;
+                            searchTraction.Add(newGrid.index);
+                            GetArroundTraction(newGrid.index, grid, ref searchTraction);
+                        }
+                    }
+                } else {
+                    for (int k = -1; k <= 0; k++) {
+                        int x = GetX(i) + k;
+                        int y = GetY(i) + j;
+                        if (x < 0 || x >= horizontalCount || y < 0 || y >= verticalCount) {
+                            continue;
+                        }
+                        int index = GetIndex(x, y);
+                        var newGrid = allGrid[index];
+
+                        if (!newGrid.hasBubble || newGrid.hasSearchTraction) {
+                            continue;
+                        }
+
+                        // Debug.Log("Index" + index);
+
+                        if (y == 0) {
+                            grid.isNeedFalling = false;
+                            return;
+                        } else {
+                            newGrid.hasSearchTraction = true;
+                            searchTraction.Add(newGrid.index);
+                            GetArroundTraction(newGrid.index, grid, ref searchTraction);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #endregion
 
     public int GetX(int index) {
         return index % horizontalCount;
@@ -164,6 +290,7 @@ public class GridComponet {
     public int GetIndex(int x, int y) {
         return y * horizontalCount + x;
     }
+
     public bool TryGetNearlyGrid(Vector2 pos, out GridEntity nearlygrid) {
         float nearlyDistance = 16;
         nearlygrid = null;
