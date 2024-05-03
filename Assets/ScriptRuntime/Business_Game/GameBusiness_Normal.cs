@@ -20,13 +20,15 @@ public static class GameBusiness_Normal {
 
         // 生成背景场景
         BackSceneDomain.Spawn(ctx);
+        // 打开GameStatus
+        UIDomain.Panel_GameStatus_Open(ctx);
 
         //播放背景音乐 
         ctx.soundCore.BgmPlay(ctx.backScene.bgm);
 
         // 生成发射器的泡泡
-        ctx.ready_Bubble = BubbleDomain.Spawn(ctx, new Vector2(0, -8), 0);
-        ctx.fake_Bubble = FakeBubbleDomain.Spawn(ctx);
+        ctx.ready_Bubble1 = FakeBubbleDomain.Spawn(ctx, new Vector2(0, -8), UnityEngine.Random.Range(0, 3), new Vector3(1, 1, 1));
+        ctx.ready_Bubble2 = FakeBubbleDomain.Spawn(ctx, new Vector2(-3, -8), UnityEngine.Random.Range(0, 3), new Vector3(0.5f, 0.5f, 0.5f));
         ctx.fsmCom.EnteringNormal();
         // ctx.shooting_Bubble = ctx.ready_Bubble;
     }
@@ -86,6 +88,7 @@ public static class GameBusiness_Normal {
                 Debug.Log(bubble.colorType + " " + bubble.id + " " + bubble.landingPoint);
             }
             if (has) {
+                // Debug.Log(bubble.landingPoint + " " + grid.index);
                 bubble.SetPos(grid.pos);
                 bubble.hasSetGridPos = true;
                 bubble.RemoveRigidboddy();
@@ -111,8 +114,8 @@ public static class GameBusiness_Normal {
 
     public static void LateTick(GameContext ctx, float dt) {
         // 生成新的fakeBubble
-        if (ctx.fake_Bubble == null) {
-            ctx.fake_Bubble = FakeBubbleDomain.Spawn(ctx);
-        }
+        // if (ctx.fake_Bubble == null) {
+        //     ctx.fake_Bubble = FakeBubbleDomain.Spawn(ctx);
+        // }
     }
 }

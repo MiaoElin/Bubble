@@ -21,8 +21,8 @@ public class GameContext {
     public IDService iDService;
 
     // === Entity ===
-    public BubbleEntity ready_Bubble;
-    public FakeBubbleEntity fake_Bubble;
+    public FakeBubbleEntity ready_Bubble1;
+    public FakeBubbleEntity ready_Bubble2;
     public BubbleEntity shooting_Bubble;
 
     // === Component ===

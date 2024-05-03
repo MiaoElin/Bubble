@@ -134,7 +134,7 @@ public class GridComponet {
         if (grid.colorType == centerGrid.colorType) {
             grid.hasSearch = true;
             centerGrid.centerCount += 1;
-            Debug.Log(grid.index + " " + grid.colorType);
+            // Debug.Log(grid.index + " " + grid.colorType);
             tempArray.Add(grid.index);
             TryGetArroundCount(grid.index, centerGrid, tempArray);
         }

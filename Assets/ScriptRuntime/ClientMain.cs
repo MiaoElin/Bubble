@@ -50,6 +50,10 @@ public class ClientMain : MonoBehaviour {
             LoginBusiness.Close(ctx);
             GameBusiness_Normal.EnterGame(ctx);
         };
+
+        uieventCenter.OnChangeClickHandle += () => {
+            GameNormalDomain.ChangeReadyBubble(ctx);
+        };
     }
 
     // Update is called once per frame

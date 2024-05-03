@@ -10,6 +10,7 @@ public class UIContext {
 
     public UIEventCenter uIEventCenter;
     public Panel_Login panel_Login;
+    public Panel_GameStatus panel_GameStatus;
     public Canvas screenCanvas;
 
     public UIContext() {

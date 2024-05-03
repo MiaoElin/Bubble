@@ -49,4 +49,17 @@ public class UIApp {
         }
         GameObject.Destroy(panel.gameObject);
     }
+
+    #region Panel: GameStatus
+    public void Panel_GameStatus_Open() {
+        var panel = ctx.panel_GameStatus;
+        if (panel == null) {
+            ctx.TryGetUI_Prefab(typeof(Panel_GameStatus).Name, out var prefab);
+            panel = GameObject.Instantiate(prefab, ctx.screenCanvas.transform).GetComponent<Panel_GameStatus>();
+            panel.Ctor();
+            ctx.panel_GameStatus = panel;
+            panel.OnclickBtnChangeHandle = () => { uIEventCenter.Panel_GameStatus_ChangeBubble(); };
+        }
+    }
+    #endregion
 }
