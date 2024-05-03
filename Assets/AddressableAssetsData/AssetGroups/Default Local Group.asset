@@ -95,6 +95,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - AudioSource
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cd5300f2c69347b49a23292e6979b6f3
+    m_Address: Assets/ResourceRuntime/Panel/GameStatus/Panel_GameStatus.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: dd4b3ccd9a9c18e4a973c93043fc07e3, type: 2}
   m_SchemaSet:

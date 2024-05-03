@@ -119,7 +119,8 @@ public static class GameNormalDomain {
         // 要关闭line Render 只有reday_Bubble1才能发射射线
         ctx.ready_Bubble2.SetlineR1Enable(false);
         ctx.ready_Bubble2.SetlineR2Enable(false);
-        
+        ctx.ready_Bubble1.isEasing = true;
+        ctx.ready_Bubble2.isEasing = true;
     }
 
 }

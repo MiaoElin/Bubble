@@ -117,5 +117,6 @@ public static class GameBusiness_Normal {
         // if (ctx.fake_Bubble == null) {
         //     ctx.fake_Bubble = FakeBubbleDomain.Spawn(ctx);
         // }
+        FakeBubbleDomain.MoveToByEasing(ctx, dt);
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using GameFunctions;
 
 public class FakeBubbleEntity : MonoBehaviour {
 
@@ -11,11 +12,15 @@ public class FakeBubbleEntity : MonoBehaviour {
     [SerializeField] LineRenderer lineReflect;
     [NonSerialized] public Vector2 landingPoint;
 
+    public bool isEasing;
     public float timer;
     public float maintain;
 
     public FakeBubbleEntity() {
         faceDir = new Vector2(0, 1);
+        isEasing = false;
+        timer = 0;
+        maintain = 0.1f;
     }
 
     public void SetlineR1Enable(bool b) {
@@ -44,10 +49,15 @@ public class FakeBubbleEntity : MonoBehaviour {
         lineReflect.SetPosition(1, endPos);
     }
 
-    public void MoveToByEasing(Vector2 target, float dt) {
+    public void MoveToByEasing(Vector2 startPos, Vector2 endPos, float startScale, float endScale, float dt) {
         timer += dt;
         if (timer <= maintain) {
-            // transform.position=
+            transform.position = GFEasing.Ease2D(GFEasingEnum.Linear, timer, maintain, startPos, endPos);
+            var scale = GFEasing.Ease1D(GFEasingEnum.Linear, timer, maintain, startScale, endScale);
+            transform.localScale = new Vector3(scale, scale, scale);
+        } else {
+            timer = 0;
+            isEasing = false;
         }
 
     }

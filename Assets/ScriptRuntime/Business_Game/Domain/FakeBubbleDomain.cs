@@ -12,7 +12,10 @@ public static class FakeBubbleDomain {
         GameObject.Destroy(fakeBubble.gameObject);
     }
 
-    // public static void Move(GameContext ctx){
-
-    // }
+    public static void MoveToByEasing(GameContext ctx, float dt) {
+        if (ctx.ready_Bubble1.isEasing) {
+            ctx.ready_Bubble1.MoveToByEasing(new Vector2(-3, -8), new Vector2(0, -8), 0.5f, 1, dt);
+            ctx.ready_Bubble2.MoveToByEasing(new Vector2(0, -8), new Vector2(-3, -8), 1, 0.5f, dt);
+        }
+    }
 }
