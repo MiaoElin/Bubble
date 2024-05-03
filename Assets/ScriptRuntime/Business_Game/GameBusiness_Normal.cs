@@ -27,8 +27,8 @@ public static class GameBusiness_Normal {
         ctx.soundCore.BgmPlay(ctx.backScene.bgm);
 
         // 生成发射器的泡泡
-        ctx.ready_Bubble1 = FakeBubbleDomain.Spawn(ctx, new Vector2(0, -8), UnityEngine.Random.Range(0, 3), new Vector3(1, 1, 1));
-        ctx.ready_Bubble2 = FakeBubbleDomain.Spawn(ctx, new Vector2(-3, -8), UnityEngine.Random.Range(0, 3), new Vector3(0.5f, 0.5f, 0.5f));
+        ctx.ready_Bubble1 = FakeBubbleDomain.Spawn(ctx, Vector2Const.ReadyBubble1, UnityEngine.Random.Range(0, 3), new Vector3(1, 1, 1));
+        ctx.ready_Bubble2 = FakeBubbleDomain.Spawn(ctx, Vector2Const.ReadyBubble1, UnityEngine.Random.Range(0, 3), new Vector3(0.5f, 0.5f, 0.5f));
         ctx.fsmCom.EnteringNormal();
         // ctx.shooting_Bubble = ctx.ready_Bubble;
     }

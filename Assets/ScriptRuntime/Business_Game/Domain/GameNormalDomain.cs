@@ -15,16 +15,16 @@ public static class GameNormalDomain {
                 ctx.soundCore.BubbleShootPlay(ctx.backScene.bubbleBreak);
 
                 // 根据备用1生成发射的泡泡
-                shooting_Bubble = BubbleDomain.Spawn(ctx, new Vector2(0, -8), ready_Bubble1.typeId);
+                shooting_Bubble = BubbleDomain.Spawn(ctx, Vector2Const.ReadyBubble1, ready_Bubble1.typeId);
                 shooting_Bubble.landingPoint = ready_Bubble1.landingPoint;
                 // 销毁备用1
                 FakeBubbleDomain.UnSpawn(ready_Bubble1);
                 // 根据备用2生成新的备用1
-                ctx.ready_Bubble1 = FakeBubbleDomain.Spawn(ctx, new Vector2(0, -8), ready_Bubble2.typeId, new Vector3(1, 1, 1));
+                ctx.ready_Bubble1 = FakeBubbleDomain.Spawn(ctx, Vector2Const.ReadyBubble1, ready_Bubble2.typeId, new Vector3(1, 1, 1));
                 // 销毁备用2
                 FakeBubbleDomain.UnSpawn(ready_Bubble2);
                 // 生成随机的备用2
-                ctx.ready_Bubble2 = FakeBubbleDomain.Spawn(ctx, new Vector2(-3, -8), UnityEngine.Random.Range(0, 3), new Vector3(0.5f, 0.5f, 0.5f));
+                ctx.ready_Bubble2 = FakeBubbleDomain.Spawn(ctx, Vector2Const.ReadyBubble2, UnityEngine.Random.Range(0, 3), new Vector3(0.5f, 0.5f, 0.5f));
 
                 // 发射泡泡
                 shooting_Bubble.isShooted = true;
