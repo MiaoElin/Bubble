@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class GridEntity {
     public int index;
-    public int bubbleId;
     public Vector2 pos;
-    public bool hasBubble;
     public bool enable;
+
+    public bool hasBubble;
+    public int bubbleId;
     public ColorType colorType;
+
     public int centerCount;
     public bool hasSearchColor;
 
@@ -21,14 +23,20 @@ public class GridEntity {
         isNeedFalling = false;
     }
 
-    public void Reset() {
+    public void Reuse() {
         bubbleId = default;
         hasBubble = false;
-        
+
         hasSearchColor = false;
         colorType = ColorType.None;
 
         isNeedFalling = false;
         hasSearchTraction = false;
+    }
+
+    public void SetHasBubble(int bubbleId, ColorType colorType) {
+        this.hasBubble = true;
+        this.bubbleId = bubbleId;
+        this.colorType = colorType;
     }
 }

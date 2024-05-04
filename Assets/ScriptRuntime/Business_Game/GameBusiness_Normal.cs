@@ -71,34 +71,26 @@ public static class GameBusiness_Normal {
         // 发射Bubble
         GameNormalDomain.ShootBubble(ctx);
 
+        var shooting_Bubble = ctx.shooting_Bubble;
+        if (shooting_Bubble && !shooting_Bubble.hasSetGridPos) {
+            if (!shooting_Bubble.isArrived) {
+                // 移动shoot_Bubble
+                BubbleDomain.Move(shooting_Bubble);
+            } else if (shooting_Bubble.isArrived) {
+                // 到达，重置buble位置
+                ctx.gridCom.TryGetNearlyGrid(shooting_Bubble.landingPoint, out var grid);
+                shooting_Bubble.SetPos(grid.pos);
+                shooting_Bubble.SetToStatic();
 
-        // 遍历Bubble修改位置
-        int bubbleLen = ctx.bubbleRepo.TakeAll(out var allBubble);
-        for (int i = 0; i < bubbleLen; i++) {
-            var bubble = allBubble[i];
-            if (bubble.hasSetGridPos) {
-                continue;
+                // 设置格子为habubble
+                ctx.gridCom.SetGridHasBubble(grid, shooting_Bubble.colorType, shooting_Bubble.id);
+                // 获取与发射的泡泡相连的泡泡数(只在发射到达后检测一次)
+                ctx.gridCom.UpdateCenterCount(grid.index);
             }
-            if (!bubble.isArrived) {
-                BubbleDomain.Move(bubble);
-                continue;
-            }
-            bool has = ctx.gridCom.TryGetNearlyGrid(bubble.landingPoint, out var grid);
-            if (!has) {
-                Debug.Log(bubble.colorType + " " + bubble.id + " " + bubble.landingPoint);
-            }
-            if (has) {
-                // Debug.Log(bubble.landingPoint + " " + grid.index);
-                bubble.SetPos(grid.pos);
-                bubble.hasSetGridPos = true;
-                bubble.RemoveRigidboddy();
-                ctx.gridCom.SetGridHasBubble(grid, bubble.colorType, bubble.id);
-                // 更新格子
-                ctx.gridCom.UpdateCenterGrid(grid.index);
-            }
+
         }
 
-        // 消除泡泡
+        // 消除相连的泡泡
         ctx.gridCom.Foreah(grid => {
             if (!grid.hasBubble || !grid.hasSearchColor) {
                 return;
@@ -107,40 +99,32 @@ public static class GameBusiness_Normal {
             bool has = ctx.bubbleRepo.Tryget(grid.bubbleId, out var bubble);
             if (has) {
                 BubbleDomain.UnSpawn(ctx, bubble);
-                grid.Reset();
+                grid.Reuse();
+            } else {
+                Debug.Log(grid.index + " " + grid.bubbleId);
             }
+
         });
 
-        // 更新IsNeedFalling
+        // 消除需要掉落的泡泡
         ctx.gridCom.UpdateTraction();
         ctx.gridCom.Foreah(grid => {
             if (!grid.hasBubble || !grid.isNeedFalling) {
                 return;
             }
-            // Debug.Log(grid.index);
+
             ctx.bubbleRepo.Tryget(grid.bubbleId, out var bubble);
             bubble.fallingPos = grid.pos;
             bubble.FallingEasing(dt);
             if (bubble.fallingTimer <= 0) {
                 BubbleDomain.UnSpawn(ctx, bubble);
-                grid.Reset();
+                grid.Reuse();
             }
         });
 
     }
 
     public static void LateTick(GameContext ctx, float dt) {
-        // 生成新的fakeBubble
-        // if (ctx.fake_Bubble == null) {
-        //     ctx.fake_Bubble = FakeBubbleDomain.Spawn(ctx);
-        // }
         FakeBubbleDomain.MoveToByEasing(ctx, dt);
-        // int bubblelen = ctx.bubbleRepo.TakeAll(out var allbubble);
-        // for (int i = 0; i < bubblelen; i++) {
-        //     var bubble = allbubble[i];
-        //     if (bubble.enterFallingEasing) {
-        //         bubble.FallingEasing(dt);
-        //     }
-        // }
     }
 }

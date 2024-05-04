@@ -58,10 +58,17 @@ public class BubbleEntity : MonoBehaviour {
     public Vector2 GetPos() {
         return transform.position;
     }
+
     public void Move(Vector2 dir) {
         var velocity = rb.velocity;
         velocity = dir.normalized * moveSpeed;
         rb.velocity = velocity;
+    }
+
+    public void SetToStatic() {
+        hasSetGridPos = true;
+        isArrived = true;
+        RemoveRigidboddy();
     }
 
     void OnCollisionEnter2D(Collision2D other) {

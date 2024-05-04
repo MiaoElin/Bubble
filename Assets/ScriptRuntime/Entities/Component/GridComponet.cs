@@ -72,7 +72,7 @@ public class GridComponet {
     //  x x o
 
     #region UpdateCenterGrid
-    public void UpdateCenterGrid(int index) {
+    public void UpdateCenterCount(int index) {
         var centerGrid = allGrid[index];
         centerGrid.hasSearchColor = true;
         centerGrid.centerCount = 1;
@@ -321,9 +321,7 @@ public class GridComponet {
 
 
     public void SetGridHasBubble(GridEntity grid, ColorType colorType, int bubbleId) {
-        grid.hasBubble = true;
-        grid.colorType = colorType;
-        grid.bubbleId = bubbleId;
+        grid.SetHasBubble(bubbleId, colorType);
     }
 
 }
