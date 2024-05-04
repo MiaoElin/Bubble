@@ -23,6 +23,10 @@ public class GridEntity {
         isNeedFalling = false;
     }
 
+    public void SetPos(Vector2 pos) {
+        this.pos = pos;
+    }
+
     public void Reuse() {
         bubbleId = default;
         hasBubble = false;

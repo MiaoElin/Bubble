@@ -253,8 +253,12 @@ MonoBehaviour:
   isInGrid: 0
   isArrived: 0
   hasSetGridPos: 0
-  lineR: {fileID: 2347545169150321124}
-  lineRReflet: {fileID: 2212122420640544673}
+  landingPoint: {x: 0, y: 0}
+  enterFallingEasing: 0
+  fallingTimer: 0
+  fallingMoutainDuration: 0
+  fallingDuration: 0
+  fallingPos: {x: 0, y: 0}
 --- !u!58 &1392242016491105295
 CircleCollider2D:
   m_ObjectHideFlags: 0

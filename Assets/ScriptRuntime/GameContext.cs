@@ -25,8 +25,13 @@ public class GameContext {
     public FakeBubbleEntity ready_Bubble2;
     public BubbleEntity shooting_Bubble;
 
+    public int shootCount;
+    public int maxShootCount;
+    public bool isGridMoveDown;
+
     // === Component ===
     public GridComponet gridCom;
+
 
 
     public GameContext() {
@@ -40,6 +45,11 @@ public class GameContext {
         bubbleRepo = new BubbleRepo();
         iDService = new IDService();
         gridCom = new GridComponet();
+
+        maxShootCount = 3;
+        shootCount = maxShootCount;
+
+        isGridMoveDown = false;
     }
 
     public void Inject(Canvas screenCanvas) {

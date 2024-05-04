@@ -5,7 +5,7 @@ public static class GameBusiness_Normal {
     public static void EnterGame(GameContext ctx) {
         // 生成临时关卡
         ctx.gridCom.Foreah(grid => {
-            if (grid.index > 59) {
+            if (grid.index > 149) {
                 return;
             }
             if (grid.enable) {
@@ -121,6 +121,24 @@ public static class GameBusiness_Normal {
                 grid.Reuse();
             }
         });
+
+        if (ctx.isGridMoveDown) {
+            ctx.isGridMoveDown = false;
+            // 所有格子下移一个单位
+            // 所有的Bubble也下移一个单位
+            Debug.Log("down");
+            var yOffset = ((MathF.Sqrt(3) * 2 + 2) / 3) * GridConst.GridRadius;
+            ctx.gridCom.Foreah(grid => {
+                Debug.Log("grid:" + grid.index + grid.pos);
+                grid.pos.y -= yOffset;
+                Debug.Log("grid:" + grid.index + grid.pos);
+            });
+
+            int bublelen = ctx.bubbleRepo.TakeAll(out var bubbles);
+            foreach (var bubble in bubbles) {
+                bubble.SetPos(bubble.GetPos() + Vector2.down * yOffset);
+            }
+        }
 
     }
 

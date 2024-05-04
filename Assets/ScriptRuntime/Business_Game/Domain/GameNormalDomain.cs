@@ -11,6 +11,14 @@ public static class GameNormalDomain {
         // 检测发射
         if (ctx.input.isMouseLeftDown && ready_Bubble1 && ctx.input.isMouseInGrid) {
             if (!shooting_Bubble || shooting_Bubble.isArrived) {
+                ctx.shootCount -= 1;
+                Debug.Log(ctx.shootCount);
+                if (ctx.shootCount == 0) {
+                    ctx.shootCount = ctx.maxShootCount;
+                    // 所有的格子要下移动，泡泡也下移
+                    Debug.Log("IIN");
+                    ctx.isGridMoveDown = true;
+                }
                 // shoot sfx
                 ctx.soundCore.BubbleShootPlay(ctx.backScene.bubbleBreak);
 

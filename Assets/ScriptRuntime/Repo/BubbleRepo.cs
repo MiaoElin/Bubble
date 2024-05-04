@@ -4,6 +4,7 @@ using UnityEngine;
 public class BubbleRepo {
     Dictionary<int, BubbleEntity> all;
     BubbleEntity[] temp;
+
     public BubbleRepo() {
         all = new Dictionary<int, BubbleEntity>();
         temp = new BubbleEntity[300];
@@ -33,5 +34,6 @@ public class BubbleRepo {
         allBubble = temp;
         return all.Count;
     }
+
     
 }

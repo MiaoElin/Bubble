@@ -6,15 +6,15 @@ public class GridComponet {
     public int horizontalCount;
     public int verticalCount;
     List<GridEntity> allGrid;
-    Vector2 gridSize;
+    Vector2 bottom;
+    float radius;
     List<int> searchColorTemp;
     List<int> searchTractionTemp;
 
-
-
     public GridComponet() {
         allGrid = new List<GridEntity>();
-        gridSize = new Vector2(2, 2);
+        bottom = new Vector2(0, -6);
+        radius = 1;
     }
 
     public void Ctor(int horzontalCount, int verticalCount) {
@@ -26,10 +26,13 @@ public class GridComponet {
         searchColorTemp = new List<int>();
         searchTractionTemp = new List<int>();
 
-        float firGridX = (-(float)horzontalCount / 2) * gridSize.x + gridSize.x / 2;
-        float firGridY = ((float)verticalCount / 2) * gridSize.y + gridSize.y / 2;
+        int a = verticalCount / 3;
+        int b = verticalCount % 3;
+
+        float firGridX = (-(float)horzontalCount / 2) * radius * 2 + radius;
+        float firGridY = (a * radius * (Mathf.Sqrt(3) * 2 + 2)) + b * radius * (Mathf.Sqrt(3) * 2 + 2) / 3 - radius + bottom.y;
         Vector2 firgrid1 = new Vector2(firGridX, firGridY);// 布局的中心点的（0,0），如果不是要加上中心点，作为的偏移量
-        Vector2 firgrid2 = new Vector2(firGridX + gridSize.x / 2, firGridY);
+        Vector2 firgrid2 = new Vector2(firGridX + radius, firGridY);
 
         // 生成格子
         for (int i = 0; i < gridCount; i++) {
@@ -39,7 +42,7 @@ public class GridComponet {
             Vector2 pos;
             // 判断y是奇数还是偶数
             if (y % 2 == 1) {
-                pos = firgrid2 + new Vector2(gridSize.x * x, -gridSize.y / 2 * Mathf.Sqrt(3) * y);
+                pos = firgrid2 + new Vector2(2 * radius * x, -radius * Mathf.Sqrt(3) * y);
                 if (x == horzontalCount - 1) {
                     grid.Ctor(i, pos);
                     grid.enable = false;
@@ -48,7 +51,7 @@ public class GridComponet {
                     continue;
                 }
             } else {
-                pos = firgrid1 + new Vector2(gridSize.x * x, -gridSize.y / 2 * Mathf.Sqrt(3) * y);
+                pos = firgrid1 + new Vector2(2 * radius * x, -radius * Mathf.Sqrt(3) * y);
             }
 
             if (i < horizontalCount) {
