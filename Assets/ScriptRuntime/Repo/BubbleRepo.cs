@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BubbleRepo {
-    Dictionary<int, BubbleEntity> all;
+    public Dictionary<int, BubbleEntity> all;
     BubbleEntity[] temp;
 
     public BubbleRepo() {
@@ -35,5 +35,5 @@ public class BubbleRepo {
         return all.Count;
     }
 
-    
+
 }

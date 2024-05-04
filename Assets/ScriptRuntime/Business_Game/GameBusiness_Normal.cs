@@ -46,8 +46,8 @@ public static class GameBusiness_Normal {
         const float IntervalTime = 0.01f;
         restTime += dt;
         if (restTime < IntervalTime) {
+            FixedTick(ctx, restTime);
             restTime = 0;
-            FixedTick(ctx, dt);
         } else {
             while (restTime >= IntervalTime) {
                 restTime -= IntervalTime;
@@ -126,23 +126,25 @@ public static class GameBusiness_Normal {
             ctx.isGridMoveDown = false;
             // 所有格子下移一个单位
             // 所有的Bubble也下移一个单位
-            Debug.Log("down");
             var yOffset = ((MathF.Sqrt(3) * 2 + 2) / 3) * GridConst.GridRadius;
             ctx.gridCom.Foreah(grid => {
-                Debug.Log("grid:" + grid.index + grid.pos);
                 grid.pos.y -= yOffset;
-                Debug.Log("grid:" + grid.index + grid.pos);
             });
 
-            int bublelen = ctx.bubbleRepo.TakeAll(out var bubbles);
-            foreach (var bubble in bubbles) {
+            int bubblelen = ctx.bubbleRepo.TakeAll(out var bubbles);
+            for (int i = 0; i < bubblelen; i++) {
+                var bubble = bubbles[i];
                 bubble.SetPos(bubble.GetPos() + Vector2.down * yOffset);
             }
         }
 
+        Physics2D.Simulate(dt);
     }
 
     public static void LateTick(GameContext ctx, float dt) {
         FakeBubbleDomain.MoveToByEasing(ctx, dt);
+        // ctx.gridCom.Foreah(grid => {
+        //     Debug.DrawLine(grid.pos, new Vector3(grid.pos.x + 1, grid.pos.y), Color.red);
+        // });
     }
 }
