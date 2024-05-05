@@ -30,7 +30,7 @@ public static class GameNormalDomain {
                 // 销毁备用2
                 FakeBubbleDomain.UnSpawn(ready_Bubble2);
                 // 生成随机的备用2
-                ctx.ready_Bubble2 = FakeBubbleDomain.Spawn(ctx, Vector2Const.ReadyBubble2, UnityEngine.Random.Range(0, 3), new Vector3(0.5f, 0.5f, 0.5f));
+                ctx.ready_Bubble2 = FakeBubbleDomain.Spawn(ctx, Vector2Const.ReadyBubble2, UnityEngine.Random.Range(1,4), new Vector3(0.5f, 0.5f, 0.5f));
 
                 // 发射泡泡
                 shooting_Bubble.isShooted = true;

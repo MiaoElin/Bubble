@@ -8,6 +8,7 @@ public class GridEntity {
     public bool hasBubble;
     public int bubbleId;
     public ColorType colorType;
+    public int typeId;
 
     public int centerCount;
     public bool hasSearchColor;

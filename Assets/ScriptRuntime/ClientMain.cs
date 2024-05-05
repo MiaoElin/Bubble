@@ -15,8 +15,6 @@ public class ClientMain : MonoBehaviour {
         // Bind
         Bind(ctx);
 
-        ctx.gridCom.Ctor(15, 13);
-
         LoginBusiness.Enter(ctx);
 
         // int[] arr = new int[10];

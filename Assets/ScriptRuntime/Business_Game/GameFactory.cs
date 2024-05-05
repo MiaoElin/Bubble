@@ -30,4 +30,15 @@ public static class GameFactory {
         bubble.transform.position = pos;
         return bubble;
     }
+
+    public static LevelEntity CreateLevel(GameContext ctx, int typeId) {
+        bool has = ctx.assetCore.LevelTM_TryGet(typeId, out var tm);
+        LevelEntity level = new LevelEntity();
+        level.level = tm.level;
+        level.typeId = tm.typeId;
+        level.horizontalCount = tm.horizontalCount;
+        level.verticalCount = tm.verticalCount;
+        level.gridTypes = tm.gridTypes;
+        return level;
+    }
 }

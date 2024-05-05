@@ -5,16 +5,18 @@ using System;
 public class GridComponet {
     public int horizontalCount;
     public int verticalCount;
-    List<GridEntity> allGrid;
+    public GridEntity[] allGrid;
     Vector2 bottom;
     float radius;
-    List<int> searchColorTemp;
+    // List<int> searchColorTemp;
+    GridEntity[] searchColorTemp;
     List<int> searchTractionTemp;
+    // GridEntity[] searchTractionTemp;
 
     public GridComponet() {
-        allGrid = new List<GridEntity>();
-        bottom = new Vector2(0, -6);
-        radius = 1;
+        // allGrid = new List<GridEntity>();
+        bottom = Vector2Const.GridBottom;
+        radius = GridConst.GridRadius;
     }
 
     public void Ctor(int horzontalCount, int verticalCount) {
@@ -23,8 +25,10 @@ public class GridComponet {
         this.verticalCount = verticalCount;
 
         int gridCount = horzontalCount * verticalCount;
-        searchColorTemp = new List<int>();
+        allGrid = new GridEntity[gridCount];
+        searchColorTemp = new GridEntity[gridCount];
         searchTractionTemp = new List<int>();
+
 
         int a = verticalCount / 3;
         int b = verticalCount % 3;
@@ -47,7 +51,7 @@ public class GridComponet {
                     grid.Ctor(i, pos);
                     grid.enable = false;
                     // 单数行的最后一个不可用
-                    allGrid.Add(grid);
+                    allGrid[i] = grid;
                     continue;
                 }
             } else {
@@ -59,7 +63,7 @@ public class GridComponet {
             }
             grid.Ctor(i, pos);
             grid.enable = true;
-            allGrid.Add(grid);
+            allGrid[i] = grid;
         }
 
     }
@@ -79,27 +83,25 @@ public class GridComponet {
         var centerGrid = allGrid[index];
         centerGrid.hasSearchColor = true;
         centerGrid.centerCount = 1;
-        searchColorTemp.Clear();
-        searchColorTemp.Add(index);
+        // searchColorTemp.Clear();
+        Array.Clear(searchColorTemp, 0, searchColorTemp.Length);
+        searchColorTemp[centerGrid.centerCount] = centerGrid;
         TryGetArroundCount(index, centerGrid, searchColorTemp);
         if (centerGrid.centerCount < 3) {
-            for (int i = 0; i < searchColorTemp.Count; i++) {
-                // if (tempArray[i] == default) {
-                //     if (tempArray[i] == 0) {
-                //         Debug.Log("in");
-                //     }
-                //     continue;
-                // }
+            for (int i = 0; i < searchColorTemp.Length; i++) {
+                if (searchColorTemp[i] == null) {
+                    continue;
+                }
                 // bug :CenterCount2个的时候，0处的grid没有被重置
-                var id = searchColorTemp[i];
+                var temGrid = searchColorTemp[i];
                 // Debug.Log(i + ":" + id);
-                var grid = allGrid[id];
+                var grid = allGrid[temGrid.index];
                 grid.hasSearchColor = false;
             }
         }
     }
 
-    public void TryGetArroundCount(int index, GridEntity centerGrid, List<int> temp) {
+    public void TryGetArroundCount(int index, GridEntity centerGrid, GridEntity[] temp) {
         int line = GetY(index);
 
         bool isSingular = false;
@@ -114,23 +116,23 @@ public class GridComponet {
                     if (i == 0) {
                         continue;
                     }
-                    TryGetCenterCount(index, i, j, centerGrid, ref temp);
+                    TryGetCenterCount(index, i, j, centerGrid, temp);
                 }
             } else {
                 if (isSingular) {
                     for (int i = 0; i <= 1; i++) {
-                        TryGetCenterCount(index, i, j, centerGrid, ref temp);
+                        TryGetCenterCount(index, i, j, centerGrid, temp);
                     }
                 } else {
                     for (int i = -1; i < 1; i++) {
-                        TryGetCenterCount(index, i, j, centerGrid, ref temp);
+                        TryGetCenterCount(index, i, j, centerGrid, temp);
                     }
                 }
             }
         }
     }
 
-    public void TryGetCenterCount(int index, int xOffset, int yOffset, GridEntity centerGrid, ref List<int> tempArray) {
+    public void TryGetCenterCount(int index, int xOffset, int yOffset, GridEntity centerGrid, GridEntity[] tempArray) {
         int x = GetX(index) + xOffset;
         int y = GetY(index) + yOffset;
         if (x < 0 || x >= horizontalCount || y < 0 || y >= verticalCount) {
@@ -145,7 +147,7 @@ public class GridComponet {
             grid.hasSearchColor = true;
             centerGrid.centerCount += 1;
             // Debug.Log(grid.index + " " + grid.colorType);
-            tempArray.Add(grid.index);
+            tempArray[centerGrid.centerCount] = grid;
             TryGetArroundCount(grid.index, centerGrid, tempArray);
         }
     }
@@ -156,7 +158,7 @@ public class GridComponet {
 
     public void UpdateTraction() {
         // 检测每个grid，有bubble的，检测它的周围连接的所有grid。有位于顶部的算是有牵引的，否则移除
-        for (int i = 0; i < allGrid.Count; i++) {
+        for (int i = 0; i < allGrid.Length; i++) {
             if (i < horizontalCount) {
                 continue;
             }
@@ -297,7 +299,7 @@ public class GridComponet {
     public bool TryGetNearlyGrid(Vector2 pos, out GridEntity nearlygrid) {
         float nearlyDistance = 16;
         nearlygrid = null;
-        for (int i = 0; i < allGrid.Count; i++) {
+        for (int i = 0; i < allGrid.Length; i++) {
             var grid = allGrid[i];
             if (!grid.enable) {
                 continue;
@@ -319,7 +321,12 @@ public class GridComponet {
     }
 
     public void Foreah(Action<GridEntity> action) {
-        allGrid.ForEach(action);
+        for (int i = 0; i < allGrid.Length; i++) {
+            var grid = allGrid[i];
+            if (grid.enable) {
+                action(grid);
+            }
+        }
     }
 
 

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: FakeBubbleTM_1
   m_EditorClassIdentifier: 
   typeId: 1
-  spr: {fileID: 3066739063403141658, guid: a44927fa279e4944f80032996628fa5c, type: 3}
+  spr: {fileID: -4933722198562566004, guid: 411ba3faf930e6c498b260896bfa75f0, type: 3}

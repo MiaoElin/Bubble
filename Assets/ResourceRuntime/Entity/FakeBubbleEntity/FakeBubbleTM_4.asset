@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 33efac9daa768d042b00ca2230374f1f, type: 3}
-  m_Name: FakeBubbleTM_0
+  m_Name: FakeBubbleTM_4
   m_EditorClassIdentifier: 
-  typeId: 0
-  spr: {fileID: 0}
+  typeId: 4
+  spr: {fileID: 6412199153897674317, guid: 57ad78dda9b71994aae642f4af9cf94c, type: 3}
