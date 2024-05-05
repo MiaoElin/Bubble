@@ -49,7 +49,7 @@ public class GameContext {
         iDService = new IDService();
         gridCom = new GridComponet();
 
-        maxShootCount = 3;
+        maxShootCount = 4;
         shootCount = maxShootCount;
 
         isGridMoveDown = false;

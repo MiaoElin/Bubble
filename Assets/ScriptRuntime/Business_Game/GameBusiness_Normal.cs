@@ -141,7 +141,6 @@ public static class GameBusiness_Normal {
             ctx.gridCom.currentTopLine -= 1;
             ctx.gridCom.firstGridIndex -= ctx.gridCom.horizontalCount;
             var index = ctx.gridCom.firstGridIndex;
-            Debug.Log(index);
             // 新生成一排
             for (int i = index; i < index + ctx.gridCom.horizontalCount; i++) {
                 var grid = ctx.gridCom.allGrid[i];
