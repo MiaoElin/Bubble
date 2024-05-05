@@ -9,24 +9,10 @@ public static class GameBusiness_Normal {
         // 打开GameStatus
         UIDomain.Panel_GameStatus_Open(ctx);
 
-        // // 生成临时关卡
-        // ctx.gridCom.Foreah(grid => {
-        //     if (grid.index > 149) {
-        //         return;
-        //     }
-        //     if (grid.enable) {
-        //         var buble = BubbleDomain.SpawnStatic(ctx, grid.pos, UnityEngine.Random.Range(1, 4));
-        //         // grid.hasBubble = true;
-        //         // grid.colorType = buble.colorType;
-        //         // grid.bubbleId = buble.id;
-        //         ctx.gridCom.SetGridHasBubble(grid, buble.colorType, buble.id);
-        //     }
-        // }
-        // );
-
         // 生成关卡
         var level = LevelDomain.Spawn(ctx, 0);
         ctx.level = level;
+        ctx.moveDownTimes = level.verticalCount - GridConst.ScreenMaxVerticalCount;
         ctx.gridCom.Ctor(level.horizontalCount, level.verticalCount);
         var allGrid = ctx.gridCom.allGrid;
 
@@ -34,32 +20,24 @@ public static class GameBusiness_Normal {
         int gridCount = level.gridTypes.Length;
         for (int i = 0; i < gridCount; i++) {
             var typeId = level.gridTypes[i];
-            // if (typeId == 0) {
-            //     continue;
-            // }
             allGrid[i].typeId = typeId;
-            Debug.Log(typeId);
         }
-
+        // 根据Grid里的typeId生成静态泡泡
         for (int i = gridCount - 1; i >= 0; i--) {
             var grid = allGrid[i];
             if (grid.typeId == 0 || !grid.enable) {
                 continue;
             }
-            Debug.Log(grid.isNeedFalling);
             var bubble = BubbleDomain.SpawnStatic(ctx, grid.pos, grid.typeId);
             grid.SetHasBubble(bubble.id, bubble.colorType);
         }
-
-        // 设置有bubble的格子
-
 
         //播放背景音乐 
         ctx.soundCore.BgmPlay(ctx.backScene.bgm);
 
         // 生成发射器的泡泡
-        ctx.ready_Bubble1 = FakeBubbleDomain.Spawn(ctx, Vector2Const.ReadyBubble1, UnityEngine.Random.Range(1, 4), new Vector3(1, 1, 1));
-        ctx.ready_Bubble2 = FakeBubbleDomain.Spawn(ctx, Vector2Const.ReadyBubble2, UnityEngine.Random.Range(1, 4), new Vector3(0.5f, 0.5f, 0.5f));
+        ctx.ready_Bubble1 = FakeBubbleDomain.Spawn(ctx, Vector2Const.ReadyBubble1, UnityEngine.Random.Range(1, 5), new Vector3(1, 1, 1));
+        ctx.ready_Bubble2 = FakeBubbleDomain.Spawn(ctx, Vector2Const.ReadyBubble2, UnityEngine.Random.Range(1, 5), new Vector3(0.5f, 0.5f, 0.5f));
         ctx.fsmCom.EnteringNormal();
         // ctx.shooting_Bubble = ctx.ready_Bubble;
     }
@@ -143,7 +121,6 @@ public static class GameBusiness_Normal {
             if (!grid.hasBubble || !grid.isNeedFalling) {
                 return;
             }
-            Debug.Log(grid.isNeedFalling);
             ctx.bubbleRepo.Tryget(grid.bubbleId, out var bubble);
             bubble.fallingPos = grid.pos;
             bubble.FallingEasing(dt);
@@ -153,11 +130,12 @@ public static class GameBusiness_Normal {
             }
         });
 
-        if (ctx.isGridMoveDown) {
+        if (ctx.isGridMoveDown && ctx.moveDownTimes > 0) {
             ctx.isGridMoveDown = false;
+            ctx.moveDownTimes -= 1;
             // 所有格子下移一个单位
             // 所有的Bubble也下移一个单位
-            var yOffset = ((MathF.Sqrt(3) * 2 + 2) / 3) * GridConst.GridRadius;
+            var yOffset = MathF.Sqrt(3) * GridConst.GridRadius;
             ctx.gridCom.Foreah(grid => {
                 grid.pos.y -= yOffset;
             });
@@ -174,8 +152,8 @@ public static class GameBusiness_Normal {
 
     public static void LateTick(GameContext ctx, float dt) {
         FakeBubbleDomain.MoveToByEasing(ctx, dt);
-        // ctx.gridCom.Foreah(grid => {
-        //     Debug.DrawLine(grid.pos, new Vector3(grid.pos.x + 1, grid.pos.y), Color.red);
-        // });
+        ctx.gridCom.Foreah(grid => {
+            Debug.DrawLine(grid.pos, new Vector3(grid.pos.x, grid.pos.y - 1), Color.red);
+        });
     }
 }

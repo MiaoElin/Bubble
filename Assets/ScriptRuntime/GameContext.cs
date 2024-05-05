@@ -24,7 +24,9 @@ public class GameContext {
     public FakeBubbleEntity ready_Bubble1;
     public FakeBubbleEntity ready_Bubble2;
     public BubbleEntity shooting_Bubble;
+
     public LevelEntity level;
+    public int moveDownTimes;
 
     public int shootCount;
     public int maxShootCount;

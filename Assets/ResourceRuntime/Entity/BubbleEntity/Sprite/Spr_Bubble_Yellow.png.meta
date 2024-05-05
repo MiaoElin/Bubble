@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 57ad78dda9b71994aae642f4af9cf94c
+guid: 2ef446cb333ed7149b016d0cad4af193
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -103,10 +103,10 @@ TextureImporter:
       name: Spr_Bubble_Yellow_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 200
-        height: 200
+        x: 129
+        y: 70
+        width: 207
+        height: 207
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,8 +130,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      Spr_Bubble_Yellow_0: 6412199153897674317
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

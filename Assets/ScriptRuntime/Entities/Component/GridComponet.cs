@@ -30,11 +30,8 @@ public class GridComponet {
         searchTractionTemp = new List<int>();
 
 
-        int a = verticalCount / 3;
-        int b = verticalCount % 3;
-
         float firGridX = (-(float)horzontalCount / 2) * radius * 2 + radius;
-        float firGridY = (a * radius * (Mathf.Sqrt(3) * 2 + 2)) + b * radius * (Mathf.Sqrt(3) * 2 + 2) / 3 - radius + bottom.y;
+        float firGridY = ((verticalCount - 1) * radius * (Mathf.Sqrt(3))) + radius + bottom.y + 0.5f;
         Vector2 firgrid1 = new Vector2(firGridX, firGridY);// 布局的中心点的（0,0），如果不是要加上中心点，作为的偏移量
         Vector2 firgrid2 = new Vector2(firGridX + radius, firGridY);
 
