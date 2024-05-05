@@ -12,6 +12,8 @@ public class GridComponet {
     GridEntity[] searchColorTemp;
     List<int> searchTractionTemp;
     // GridEntity[] searchTractionTemp;
+    public int currentTopLine;
+    public int firstGridIndex;
 
     public GridComponet() {
         // allGrid = new List<GridEntity>();
@@ -19,10 +21,12 @@ public class GridComponet {
         radius = GridConst.GridRadius;
     }
 
-    public void Ctor(int horzontalCount, int verticalCount) {
+    public void Ctor(int horzontalCount, int verticalCount, int currentTopLine, int firstGridIndex) {
 
         this.horizontalCount = horzontalCount;
         this.verticalCount = verticalCount;
+        this.currentTopLine = currentTopLine;
+        this.firstGridIndex = firstGridIndex;
 
         int gridCount = horzontalCount * verticalCount;
         allGrid = new GridEntity[gridCount];
@@ -191,7 +195,6 @@ public class GridComponet {
         }
     }
     public void GetArroundTraction(int i, GridEntity grid, ref List<int> searchTraction) {
-
         // 判断单双行
         int line = GetY(i);
         bool isSingular = false;
@@ -217,7 +220,7 @@ public class GridComponet {
                         continue;
                     }
 
-                    if (y == 0) {
+                    if (y == currentTopLine) {
                         grid.isNeedFalling = false;
                         return;
                     } else {
@@ -240,7 +243,7 @@ public class GridComponet {
                             continue;
                         }
 
-                        if (y == 0) {
+                        if (y == currentTopLine) {
                             grid.isNeedFalling = false;
                             return;
                         } else {
@@ -265,7 +268,7 @@ public class GridComponet {
 
                         // Debug.Log("Index" + index);
 
-                        if (y == 0) {
+                        if (y == currentTopLine) {
                             grid.isNeedFalling = false;
                             return;
                         } else {

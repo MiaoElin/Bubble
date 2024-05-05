@@ -13,7 +13,9 @@ public static class GameBusiness_Normal {
         var level = LevelDomain.Spawn(ctx, 0);
         ctx.level = level;
         ctx.moveDownTimes = level.verticalCount - GridConst.ScreenMaxVerticalCount;
-        ctx.gridCom.Ctor(level.horizontalCount, level.verticalCount);
+        int currentTopLine = ctx.moveDownTimes;
+        int firstGridIndex = ctx.moveDownTimes * level.horizontalCount;
+        ctx.gridCom.Ctor(level.horizontalCount, level.verticalCount, currentTopLine, firstGridIndex);
         var allGrid = ctx.gridCom.allGrid;
 
         // 设置Grid
@@ -22,8 +24,9 @@ public static class GameBusiness_Normal {
             var typeId = level.gridTypes[i];
             allGrid[i].typeId = typeId;
         }
+
         // 根据Grid里的typeId生成静态泡泡
-        for (int i = gridCount - 1; i >= 0; i--) {
+        for (int i = gridCount - 1; i >= 60; i--) {
             var grid = allGrid[i];
             if (grid.typeId == 0 || !grid.enable) {
                 continue;
@@ -130,11 +133,25 @@ public static class GameBusiness_Normal {
             }
         });
 
-        if (ctx.isGridMoveDown && ctx.moveDownTimes > 0) {
+        // 所有格子下移一个单位
+        // 所有的Bubble也下移一个单位
+        if (ctx.isGridMoveDown && ctx.moveDownTimes > 0 && ctx.shooting_Bubble.isArrived) {
             ctx.isGridMoveDown = false;
             ctx.moveDownTimes -= 1;
-            // 所有格子下移一个单位
-            // 所有的Bubble也下移一个单位
+            ctx.gridCom.currentTopLine -= 1;
+            ctx.gridCom.firstGridIndex -= ctx.gridCom.horizontalCount;
+            var index = ctx.gridCom.firstGridIndex;
+            Debug.Log(index);
+            // 新生成一排
+            for (int i = index; i < index + ctx.gridCom.horizontalCount; i++) {
+                var grid = ctx.gridCom.allGrid[i];
+                if (grid.typeId == 0 || !grid.enable) {
+                    continue;
+                }
+                var bubble = BubbleDomain.SpawnStatic(ctx, grid.pos, grid.typeId);
+                grid.SetHasBubble(bubble.id, bubble.colorType);
+            }
+            // 下移
             var yOffset = MathF.Sqrt(3) * GridConst.GridRadius;
             ctx.gridCom.Foreah(grid => {
                 grid.pos.y -= yOffset;
