@@ -151,18 +151,33 @@ public static class GameBusiness_Normal {
                 var bubble = BubbleDomain.SpawnStatic(ctx, grid.pos, grid.typeId);
                 grid.SetHasBubble(bubble.id, bubble.colorType);
             }
-            // 下移
+            // 下移格子
             var yOffset = MathF.Sqrt(3) * GridConst.GridRadius;
             ctx.gridCom.Foreah(grid => {
                 grid.pos.y -= yOffset;
             });
-
             int bubblelen = ctx.bubbleRepo.TakeAll(out var bubbles);
             for (int i = 0; i < bubblelen; i++) {
                 var bubble = bubbles[i];
-                bubble.SetPos(bubble.GetPos() + Vector2.down * yOffset);
+                bubble.enterDownEasing = true;
+                bubble.downStarPos = bubble.GetPos();
+                bubble.downEndPos = bubble.GetPos() + Vector2.down * yOffset;
             }
         }
+
+        //bubble下移缓动
+        {
+            int bubblelen = ctx.bubbleRepo.TakeAll(out var bubbles);
+            for (int i = 0; i < bubblelen; i++) {
+                var bubble = bubbles[i];
+                if (bubble.enterDownEasing) {
+                    bubble.DownEasing(dt);
+                }
+            }
+        }
+
+
+
 
         Physics2D.Simulate(dt);
     }

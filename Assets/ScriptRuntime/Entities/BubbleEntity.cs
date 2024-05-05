@@ -26,6 +26,11 @@ public class BubbleEntity : MonoBehaviour {
     public float fallingDuration;
     public Vector2 fallingPos;
 
+    public bool enterDownEasing;
+    public float downTimer;
+    public float downDuration;
+    public Vector2 downStarPos;
+    public Vector2 downEndPos;
     public BubbleEntity() {
         // isSideCollision = false;
         // isShooted = false;
@@ -48,6 +53,10 @@ public class BubbleEntity : MonoBehaviour {
         fallingTimer = 0;
         fallingMoutainDuration = 0.3f;
         fallingDuration = 0.35f;
+
+        enterDownEasing = false;
+        downTimer = 0;
+        downDuration = 0.4f;
 
     }
 
@@ -128,6 +137,16 @@ public class BubbleEntity : MonoBehaviour {
         } else if (fallingTimer > fallingDuration) {
             fallingTimer = 0;
             enterFallingEasing = false;
+        }
+    }
+
+    public void DownEasing(float dt) {
+        downTimer += dt;
+        if (downTimer <= downDuration) {
+            transform.position = GFEasing.Ease2D(GFEasingEnum.Linear, downTimer, downDuration, downStarPos, downEndPos);
+        } else {
+            downTimer = 0;
+            enterDownEasing = false;
         }
     }
 }
