@@ -31,6 +31,8 @@ public class BubbleEntity : MonoBehaviour {
     public float downDuration;
     public Vector2 downStarPos;
     public Vector2 downEndPos;
+
+    [SerializeField] Animator animator;
     public BubbleEntity() {
         // isSideCollision = false;
         // isShooted = false;
@@ -148,5 +150,27 @@ public class BubbleEntity : MonoBehaviour {
             downTimer = 0;
             enterDownEasing = false;
         }
+    }
+
+    // === Animator ===
+    public void PlayNormalType_1() {
+        animator.SetBool("State1", true);
+        Debug.Log("1");
+    }
+
+    public void PlayNormalType_2() {
+        animator.SetBool("State2", true);
+    }
+
+    public void PlayNormalType_3() {
+        animator.SetBool("State3", true);
+    }
+
+    public void PlayNormalType_4() {
+        animator.SetBool("State4", true);
+    }
+
+    public void PlayBroke() {
+        animator.SetTrigger("T_Broke");
     }
 }

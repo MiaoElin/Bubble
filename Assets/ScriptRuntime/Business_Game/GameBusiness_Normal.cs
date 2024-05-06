@@ -110,6 +110,7 @@ public static class GameBusiness_Normal {
 
             bool has = ctx.bubbleRepo.Tryget(grid.bubbleId, out var bubble);
             if (has) {
+                // bubble.PlayBroke();
                 BubbleDomain.UnSpawn(ctx, bubble);
                 grid.Reuse();
             } else {
@@ -126,11 +127,8 @@ public static class GameBusiness_Normal {
             }
             ctx.bubbleRepo.Tryget(grid.bubbleId, out var bubble);
             bubble.fallingPos = grid.pos;
-            bubble.FallingEasing(dt);
-            if (bubble.fallingTimer <= 0) {
-                BubbleDomain.UnSpawn(ctx, bubble);
-                grid.Reuse();
-            }
+            bubble.enterFallingEasing = true;
+            grid.Reuse();
         });
 
         // 所有格子下移一个单位
@@ -169,6 +167,13 @@ public static class GameBusiness_Normal {
             int bubblelen = ctx.bubbleRepo.TakeAll(out var bubbles);
             for (int i = 0; i < bubblelen; i++) {
                 var bubble = bubbles[i];
+                if (bubble.enterFallingEasing) {
+                    bubble.FallingEasing(dt);
+                    if (bubble.fallingTimer <= 0) {
+                        BubbleDomain.UnSpawn(ctx, bubble);
+                    }
+                    continue;
+                }
                 if (bubble.enterDownEasing) {
                     bubble.DownEasing(dt);
                 }

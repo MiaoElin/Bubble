@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8255781889202315666}
   - component: {fileID: 2212122420640544673}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: lineRReflect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,6 +152,7 @@ GameObject:
   - component: {fileID: 1392242016491105295}
   - component: {fileID: 4920547904804980679}
   - component: {fileID: 2347545169150321124}
+  - component: {fileID: 853051156074588785}
   m_Layer: 0
   m_Name: BubbleEntity
   m_TagString: BubbleEntity
@@ -259,6 +260,12 @@ MonoBehaviour:
   fallingMoutainDuration: 0
   fallingDuration: 0
   fallingPos: {x: 0, y: 0}
+  enterDownEasing: 0
+  downTimer: 0
+  downDuration: 0
+  downStarPos: {x: 0, y: 0}
+  downEndPos: {x: 0, y: 0}
+  animator: {fileID: 853051156074588785}
 --- !u!58 &1392242016491105295
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -428,3 +435,25 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!95 &853051156074588785
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5703044157082596952}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -5,6 +5,15 @@ public static class BubbleDomain {
 
     public static BubbleEntity Spawn(GameContext ctx, Vector2 pos, int typeId) {
         BubbleEntity bubble = GameFactory.CreateBubble(ctx, pos, typeId);
+        // if (bubble.typeId == 1) {
+        //     bubble.PlayNormalType_1();
+        // } else if (bubble.typeId == 2) {
+        //     bubble.PlayNormalType_2();
+        // } else if (bubble.typeId == 3) {
+        //     bubble.PlayNormalType_3();
+        // } else if (bubble.typeId == 4) {
+        //     bubble.PlayNormalType_4();
+        // }
         bubble.Reset();
         ctx.bubbleRepo.Add(bubble);
         return bubble;
